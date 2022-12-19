@@ -122,12 +122,6 @@ function LUALINE_INIT()
   }
 
   ins_left {
-    -- filesize component
-    'filesize',
-    cond = conditions.buffer_not_empty,
-  }
-
-  ins_left {
     'filename',
     cond = conditions.buffer_not_empty,
     color = { fg = colors.magenta, gui = 'bold' },

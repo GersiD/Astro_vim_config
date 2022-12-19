@@ -39,6 +39,8 @@ local config = {
                         local red = astronvim.get_hlgroup("Error").fg
                         -- return a table of highlights for telescope based on colors gotten from highlight groups
                         return {
+                                DashboardHeader = { fg = "#FE001A" },
+                                DashboardFooter = { fg = "#000000" },
                                 TelescopeBorder = { fg = bg_alt, bg = bg },
                                 TelescopeNormal = { bg = bg },
                                 TelescopePreviewBorder = { fg = bg, bg = bg },
@@ -222,6 +224,9 @@ local config = {
                         ["<leader>bc"] = { "<cmd>BufferLinePickClose<cr>", desc = "Pick to close" },
                         ["<leader>bj"] = { "<cmd>BufferLinePick<cr>", desc = "Pick to jump" },
                         ["<leader>bt"] = { "<cmd>BufferLineSortByTabs<cr>", desc = "Sort by tabs" },
+                        ['<leader>uu'] = { "<cmd>UndotreeToggle<cr><cmd>UndotreeFocus<cr>", desc = "Open Undo Tree" },
+                        ['<leader>hh'] = { "<cmd>GrapplePopup tags<cr>", desc = "Harpoon View" },
+                        ['<leader>ha'] = { "<cmd>lua require(\"grapple\").toggle()<cr>", desc = "Harpoon Add File" },
                         -- quick save
                         ["<C-s>"] = { ":w!<cr>", desc = "Save File" }, -- change description but the same command
                         ["<C-z>"] = { ":u<cr>", desc = "Undo" },
@@ -280,6 +285,7 @@ local config = {
                         ['nvim-lualine/lualine.nvim'] = {
                                 setup = function() require('nvim-web-devicons') end,
                                 config = function() require "user.lualine_conf" LUALINE_INIT() end,
+                                -- config = function() require('lualine').setup { theme = 'auto' } end,
                         },
                         --Latex
                         ['lervag/vimtex'] = {
