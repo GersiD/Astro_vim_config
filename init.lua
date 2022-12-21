@@ -20,7 +20,7 @@ local config = {
         },
 
         -- Set colorscheme to use
-        colorscheme = "carbonfox",
+        colorscheme = "tokyonight-night",
 
         -- Add highlight groups in any theme
         highlights = {
@@ -208,6 +208,16 @@ local config = {
                         --     },
                         --   },
                         -- },
+                        jdtls = {
+                                -- 'C:\\Users\\gersi\\AppData\\Local\\nvim-data\\mason\\packages\\jdtls\\bin\\jdtls-win.cmd -configuration C:\\Users\\gersi\\AppData\\local\\nvim-data\\mason\\packages\\jdtls\\config_win\\config.ini -data C:\\Users\\gersi\\.cache\\jdtls\\workspace',
+                                cmd = {
+
+                                },
+                                root_dir = function() return vim.fs.dirname(vim.fs.find({ '.gradlew', '.gitignore',
+                                                'mvnw',
+                                                'build.grade.kts' }, { upward = true })[1])
+                                end,
+                        },
                 },
         },
 
@@ -265,6 +275,7 @@ local config = {
                                 setup = function() require("plenary") end,
                         },
                         --Theme
+                        ['folke/tokyonight.nvim'] = {},
                         ['nyoom-engineering/oxocarbon.nvim'] = {},
                         ['catppuccin/nvim'] = {
                                 config = function() require('catppuccin').setup { transparent_background = true } end,
@@ -274,7 +285,6 @@ local config = {
                                 setup = function() require('onedark').setup { style = 'deep' } end,
                                 config = function() require "onedark" end,
                         },
-                        ['atelierbram/Base2Tone-nvim'] = {},
                         ['ggandor/leap.nvim'] = {
                                 setup = function() require('leap').add_default_mappings() end,
                                 config = function() require('leap').add_default_mappings() end,
@@ -322,6 +332,10 @@ local config = {
                 treesitter = { -- overrides `require("treesitter").setup(...)`
                         -- ensure_installed = { "lua" },
                 },
+                mason = {
+                        log_level = vim.log.levels.DEBUG,
+                        PATH = "prepend",
+                },
                 -- telescope = {
                 --   defaults = {
                 --     prompt_prefix = " ",
@@ -342,13 +356,13 @@ local config = {
                 -- use mason-lspconfig to configure LSP installations
                 ["mason-lspconfig"] = { -- overrides `require("mason-lspconfig").setup(...)`
                         -- ensure_installed = { "sumneko_lua" },
+                        PATH = "prepend",
                 },
                 -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
                 ["mason-null-ls"] = { -- overrides `require("mason-null-ls").setup(...)`
                         -- ensure_installed = { "prettier", "stylua" },
                 },
         },
-
         -- LuaSnip Options
         luasnip = {
                 -- Extend filetypes
