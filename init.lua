@@ -210,12 +210,9 @@ local config = {
                         -- },
                         jdtls = {
                                 -- 'C:\\Users\\gersi\\AppData\\Local\\nvim-data\\mason\\packages\\jdtls\\bin\\jdtls-win.cmd -configuration C:\\Users\\gersi\\AppData\\local\\nvim-data\\mason\\packages\\jdtls\\config_win\\config.ini -data C:\\Users\\gersi\\.cache\\jdtls\\workspace',
-                                cmd = {
-
-                                },
                                 root_dir = function() return vim.fs.dirname(vim.fs.find({ '.gradlew', '.gitignore',
                                                 'mvnw',
-                                                'build.grade.kts' }, { upward = true })[1])
+                                                'build.grade.kts' }, { upward = true })[1]) .. "\\"
                                 end,
                         },
                 },
@@ -247,6 +244,8 @@ local config = {
                         ["<C-q>"] = { "<cmd>lua require(\"bufdelete\").bufdelete(0, true)<cr>:q!<cr>",
                                 desc = "Force close buffer, then quit" },
                         ["<C-f>"] = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search current buffer" },
+                        ['<C-j>'] = { "10jzz", desc = "Jump Dowm" },
+                        ['<C-k>'] = { "10kzz", desc = "Jump Up" }
                 },
                 t = {
                         -- setting a mapping to false will disable it
@@ -269,6 +268,7 @@ local config = {
                         --     require("lsp_signature").setup()
                         --   end,
                         -- },
+
                         ['mbbill/undotree'] = {
                         },
                         ['cbochs/grapple.nvim'] = {
@@ -317,7 +317,7 @@ local config = {
                 -- All other entries override the require("<key>").setup({...}) call for default plugins
                 ["null-ls"] = function(config) -- overrides `require("null-ls").setup(config)`
                         -- config variable is the default configuration table for the setup function call
-                        -- local null_ls = require "null-ls"
+                        local null_ls = require "null-ls"
 
                         -- Check supported formatters and linters
                         -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
@@ -325,7 +325,7 @@ local config = {
                         config.sources = {
                                 -- Set a formatter
                                 -- null_ls.builtins.formatting.stylua,
-                                -- null_ls.builtins.formatting.prettier,
+                                null_ls.builtins.formatting.prettier,
                         }
                         return config -- return final config table
                 end,
