@@ -1,16 +1,10 @@
---              AstroNvim Configuration Table
--- All configuration changes should go inside of the table below
-
--- You can think of a Lua "table" as a dictionary like data structure the
--- normal format is "key = value". These also handle array like data structures
--- where a value with no key simply has an implicit numeric key
 local config = {
         -- Configure AstroNvim updates
         updater = {
                 remote = "origin", -- remote to use
-                channel = "stable", -- "stable" or "nightly"
+                channel = "nightly", -- "stable" or "nightly"
                 version = "latest", -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
-                branch = "main", -- branch name (NIGHTLY ONLY)
+                branch = "v3", -- branch name (NIGHTLY ONLY)
                 commit = nil, -- commit hash (NIGHTLY ONLY)
                 pin_plugins = nil, -- nil, true, false (nil will pin plugins on stable only)
                 skip_prompts = false, -- skip prompts about breaking changes
@@ -124,7 +118,7 @@ local config = {
                 plugins = {
                         aerial = true,
                         beacon = false,
-                        bufferline = true,
+                        bufferline = false,
                         cmp = true,
                         dashboard = true,
                         highlighturl = true,
@@ -181,29 +175,26 @@ local config = {
                                 -- ["<leader>lf"] = false -- disable formatting keymap
                         },
                 },
-                -- add to the global LSP on_attach function
-                -- on_attach = function(client, bufnr)
-                -- end,
-
-                -- override the mason server-registration function
-                -- server_registration = function(server, opts)
-                --   require("lspconfig")[server].setup(opts)
-                -- end,
-
-                -- Add overrides for LSP server settings, the keys are the name of the server
-                ["server-settings"] = {
-                        -- example for addings schemas to yamlls
-                        -- yamlls = { -- override table for require("lspconfig").yamlls.setup({...})
-                        --   settings = {
-                        --     yaml = {
-                        --       schemas = {
-                        --         ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*.{yml,yaml}",
-                        --         ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
-                        --         ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
-                        --       },
-                        --     },
-                        --   },
-                        -- },
+                config = {
+                        sumneko_lua = function(config)
+                                return astronvim.default_tbl({
+                                        settings = {
+                                                Lua = {
+                                                        workspace = {
+                                                                -- These two libs give lots of useful vim symbols
+                                                                library = {
+                                                                        vim.fn.expand "$VIMRUNTIME",
+                                                                        -- require("neodev"),
+                                                                        require("neodev.config").types(),
+                                                                },
+                                                                checkThirdParty = false,
+                                                                maxPreload = 5000,
+                                                                preloadFileSize = 10000,
+                                                        },
+                                                },
+                                        },
+                                }, config)
+                        end,
                         jdtls = {
                                 cmd = {
                                         "java", -- or '/path/to/java17_or_newer/bin/java'
@@ -252,40 +243,41 @@ local config = {
                 },
         },
 
-        -- Mapping data with "desc" stored directly by vim.keymap.set().
-        -- Please use this mappings table to set keyboard mapping since this is the
-        -- lower level configuration and more robust one. (which-key will
-        -- automatically pick-up stored data by this setting.)
         mappings = {
                 -- first key is the mode
                 n = {
                         -- second key is the lefthand side of the map
                         -- mappings seen under group name "Buffer"
+                        -- TODO: YOU NEED TO CHANGE THESE BECAUSE BUFFERLINE IS NOT IN v3
                         ["<leader>bb"] = { "<cmd>tabnew<cr>", desc = "New tab" },
-                        ["<leader>bc"] = { "<cmd>BufferLinePickClose<cr>", desc = "Pick to close" },
-                        ["<leader>bj"] = { "<cmd>BufferLinePick<cr>", desc = "Pick to jump" },
-                        ["<leader>bt"] = { "<cmd>BufferLineSortByTabs<cr>", desc = "Sort by tabs" },
-                        ["<leader>uu"] = { "<cmd>UndotreeToggle<cr><cmd>UndotreeFocus<cr>", desc = "Open Undo Tree" },
-                        ["<leader>hh"] = { "<cmd>GrapplePopup tags<cr>", desc = "Harpoon View" },
+                        --["<leader>bc"] = { "<cmd>BufferLinePickClose<cr>", desc = "Pick to close" },
+                        --["<leader>bj"] = { "<cmd>BufferLinePick<cr>", desc = "Pick to jump" },
+                        --["<leader>bt"] = { "<cmd>BufferLineSortByTabs<cr>", desc = "Sort by tabs" },
+                        ["<leader>uu"] = {
+                                "<cmd>UndotreeToggle<cr><cmd>UndotreeFocus<cr>",
+                                desc = "Open Undo Tree",
+                        },
+                        ["<leader>hh"] = { '<cmd>lua require("grapple").popup_tags()<cr>', desc = "Harpoon View" },
                         ["<leader>ha"] = { '<cmd>lua require("grapple").toggle()<cr>', desc = "Harpoon Add File" },
-                        ["<leader>r"] = { "<cmd>AstroReload<cr>", desc = "Reaload AstroNvim" },
                         -- shortcut for starting the default lst for a file
                         ["<leader>lS"] = { "<cmd>LspStart<cr>", desc = "Start LSP" },
-                        ["<leader><leader>s"] = { "<cmd>source C:\\Users\\gersi\\AppData\\Local\\nvim\\lua\\user\\init.lua <cr>" },
                         -- quick save
                         ["<C-s>"] = { ":w!<cr>", desc = "Save File" }, -- change description but the same command
                         ["<C-z>"] = { ":u<cr>", desc = "Undo" },
                         ["<C-a>"] = { "ggVG", desc = "Select All" },
                         ["<C-c>"] = { '"+y', desc = "Copy" },
                         ["<C-v>"] = { '"+gP', desc = "Paste" },
-                        ["y<leader>"] = { "0y$", desc = "Yank Entire Line" },
                         ["<C-q>"] = {
                                 '<cmd>lua require("bufdelete").bufdelete(0, true)<cr>:q!<cr>',
                                 desc = "Force close buffer, then quit",
                         },
+                        ["<leader>q"] = {
+                                '<cmd>lua require("bufdelete").bufdelete(0, true)<cr>:q!<cr>',
+                                desc = "Quit",
+                        },
                         ["<C-f>"] = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search current buffer" },
-                        ["<M-j>"] = { "10jzz", desc = "Jump Dowm" },
-                        ["<M-k>"] = { "10kzz", desc = "Jump Up" },
+                        ["<M-j>"] = { "15jzz", desc = "Jump Dowm" },
+                        ["<M-k>"] = { "15kzz", desc = "Jump Up" },
                 },
                 t = {
                         -- setting a mapping to false will disable it
@@ -298,7 +290,7 @@ local config = {
         },
 
         -- Set colorscheme to use
-        colorscheme = "catppuccin-macchiato",
+        colorscheme = "gruvbox",
 
         -- Configure plugins
         plugins = {
@@ -316,52 +308,62 @@ local config = {
                         --   end,
                         -- },
 
-                        ["mbbill/undotree"] = {},
-                        ["cbochs/grapple.nvim"] = {
-                                setup = function() require "plenary" end,
-                        },
-                        --Theme
-                        ["folke/tokyonight.nvim"] = {},
-                        ["nyoom-engineering/oxocarbon.nvim"] = {},
-                        ["catppuccin/nvim"] = {
-                                config = function() require("catppuccin").setup { transparent_background = false } end,
-                        },
-                        ["EdenEast/nightfox.nvim"] = {},
-                        ["navarasu/onedark.nvim"] = {
-                                -- setup = function() require('onedark').setup { style = 'deep' } end,
-                                -- config = function() require "onedark" end,
-                        },
-                        ["ggandor/leap.nvim"] = {
-                                setup = function() require("leap").add_default_mappings() end,
-                        },
-                        ["Maan2003/lsp_lines.nvim"] = {
-                                config = function() require("lsp_lines").setup() end,
-                        },
-                        ["nvim-lualine/lualine.nvim"] = {
-                                setup = function() require "nvim-web-devicons" end,
-                                config = function()
-                                        require "user.lualine_conf"
-                                        LUALINE_INIT()
-                                end,
-                                -- config = function() require('lualine').setup { theme = 'auto' } end,
-                        },
-                        --Latex
-                        ["lervag/vimtex"] = {
-                                config = {
-                                        ["vimtex_view_general_viewer"] = "SumatraPDF",
-                                        ["vimtex_view_method"] = "SumatraPDF",
-                                        ["vimtex_view_general_options"] = "-reuse-instance -forward-search @tex @line @pdf",
-                                        ["vimtex_view_general_options_latexmk"] = "-reuse-instance",
+                        ["hrsh7th/nvim-cmp"] = {
+                                dependencies = {
+                                        -- ["hrsh7th/cmp-omni"] = {},
                                 },
                         },
-                        -- We also support a key value style plugin definition similar to NvChad:
-                        -- ["ray-x/lsp_signature.nvim"] = {
-                        --   event = "BufRead",
-                        --   config = function()
-                        --     require("lsp_signature").setup()
-                        --   end,
-                        -- },
+                        {
+                                "morhetz/gruvbox",
+                        },
+                        { "folke/neodev.nvim" },
+                        { "mbbill/undotree", cmd = "UndotreeToggle" },
+                        {
+                                "cbochs/grapple.nvim",
+                                dependencies = { "nvim-lua/plenary.nvim" },
+                        },
+                        --Theme
+                        { "folke/tokyonight.nvim" },
+                        { "nyoom-engineering/oxocarbon.nvim" },
+                        {
+                                "catppuccin/nvim",
+                                config = function() require("catppuccin").setup { transparent_background = false } end,
+                        },
+                        { "EdenEast/nightfox.nvim" },
+                        { "navarasu/onedark.nvim" },
+                        { "ggandor/leap.nvim", init = function() require("leap").add_default_mappings() end },
+                        { "Maan2003/lsp_lines.nvim", config = function() require("lsp_lines").setup() end },
+                        ["nvim-lualine/lualine.nvim"] = {
+                                setup = function() require "nvim-web-devicons" end,
+                                lazy = false,
+                                config = function() require("lualine").setup { theme = "gruvbox" } end,
+                        },
+                        --Latex
+                        {
+                                "lervag/vimtex",
+                                lazy = false,
+                                config = function()
+                                        return {
+                                                ["vimtex_view_general_viewer"] = "SumatraPDF",
+                                                ["vimtex_view_method"] = "SumatraPDF",
+                                                ["vimtex_view_general_options"] = "-reuse-instance -forward-search @tex @line @pdf",
+                                                ["vimtex_view_general_options_latexmk"] = "-reuse-instance",
+                                        }
+                                end,
+                        },
                 },
+                cmp = function(config)
+                        local cmp = require "cmp"
+                        return astronvim.default_tbl({
+                                sources = cmp.config.sources {
+                                        { name = "nvim_lsp", priority = 1000 },
+                                        { name = "omni", priority = 750 },
+                                        { name = "luasnip", priority = 750 },
+                                        { name = "buffer", priority = 500 },
+                                        { name = "path", priority = 250 },
+                                },
+                        }, config)
+                end,
                 -- All other entries override the require("<key>").setup({...}) call for default plugins
                 ["null-ls"] = function(config) -- overrides `require("null-ls").setup(config)`
                         -- config variable is the default configuration table for the setup function call
@@ -381,12 +383,14 @@ local config = {
                         ensure_installed = {
                                 "lua",
                                 "python",
-                                "latex",
                                 "julia",
                                 "java",
                                 "rust",
                                 "go",
+                                "help",
+                                "vim",
                         },
+                        disable = function(lang, _) return lang == "tex" or lang == "help" end,
                 },
                 mason = {
                         log_level = vim.log.levels.DEBUG,
@@ -410,10 +414,13 @@ local config = {
                 --   },
                 -- },
                 -- use mason-lspconfig to configure LSP installations
-                ["mason-lspconfig"] = { -- overrides `require("mason-lspconfig").setup(...)`
-                        -- ensure_installed = { "sumneko_lua" },
-                        PATH = "prepend",
-                },
+                ["mason-lspconfig"] = function()
+                        require "lsp_lines"
+                        return { -- overrides `require("mason-lspconfig").setup(...)`
+                                ensure_installed = { "sumneko_lua", "ltex", "texlab", "pyright" },
+                                PATH = "prepend",
+                        }
+                end,
                 -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
                 ["mason-null-ls"] = { -- overrides `require("mason-null-ls").setup(...)`
                         -- ensure_installed = { "prettier", "stylua" },
@@ -425,28 +432,12 @@ local config = {
                 filetype_extend = {
                         -- javascript = { "javascriptreact" },
                 },
-                -- Configure luasnip loaders (vscode, lua, and/or snipmate)
-                lua_snippet_paths = {
-                        "C:/Users/gersi/AppData/Local/nvim/lua/user/snippets",
+                lua = {
+                        paths = "C:/Users/gersi/AppData/Local/nvim/lua/user/snippets",
                 },
                 vscode = {
                         -- Add paths for including more VS Code style snippets in luasnip
                         paths = {},
-                },
-        },
-
-        -- CMP Source Priorities
-        -- modify here the priorities of default cmp sources
-        -- higher value == higher priority
-        -- The value can also be set to a boolean for disabling default sources:
-        -- false == disabled
-        -- true == 1000
-        cmp = {
-                source_priority = {
-                        nvim_lsp = 1000,
-                        luasnip = 750,
-                        buffer = 500,
-                        path = 250,
                 },
         },
 
@@ -484,6 +475,7 @@ local config = {
                 -- }
                 -- Here we call ftplugin (filetype plugins) manually for git repo reasons. :)
                 require "user.ftplugin.tex"
+                vim.opt.showtabline = 0 -- Toggle tabbline off
         end,
 }
 
