@@ -15,9 +15,6 @@ local config = {
 
   -- Add highlight groups in any theme
   highlights = {
-    -- duskfox = { -- a table of overrides/changes to the duskfox theme
-    --   Normal = { bg = "#000000" },
-    -- },
     -- set highlights for all themes
     -- use a function override to let us use lua to retrieve colors from highlight group
     -- there is no default table so we don't need to put a parameter for this function
@@ -57,6 +54,7 @@ local config = {
       spell = false, -- sets vim.opt.spell
       signcolumn = "auto", -- sets vim.opt.signcolumn to auto
       wrap = false, -- sets vim.opt.wrap
+      showtabline = 0,
     },
     g = {
       mapleader = " ", -- sets vim.g.mapleader
@@ -69,14 +67,6 @@ local config = {
       ui_notifications_enabled = true, -- disable notifications when toggling UI elements
     },
   },
-  -- If you need more control, you can use the function()...end notation
-  -- options = function(local_vim)
-  --   local_vim.opt.relativenumber = true
-  --   local_vim.g.mapleader = " "
-  --   local_vim.opt.whichwrap = vim.opt.whichwrap - { 'b', 's' } -- removing option from list
-  --   local_vim.opt.shortmess = vim.opt.shortmess + { I = true } -- add to option list
-  --   return local_vim
-  -- end,
 
   header = {
     "         __                              ___   __        .ama     ,",
@@ -93,51 +83,15 @@ local config = {
     "`888a,.  ,aadd88888888888bma.   )88,  ,]I I8, .d' )88a8B ,d8 aI",
     '  "888888PP"\'        `8""""""8   "888PP\'  `888P\'  `88P"88P"8m"',
   },
-
   -- Default theme configuration
   default_theme = {
-    -- Modify the color palette for the default theme
-    colors = {
-      fg = "#abb2bf",
-      bg = "#1e222a",
-    },
-    highlights = function(hl) -- or a function that returns a new table of colors to set
-      local C = require "default_theme.colors"
-
-      hl.Normal = { fg = C.fg, bg = C.bg }
-
-      -- New approach instead of diagnostic_style
-      hl.DiagnosticError.italic = true
-      hl.DiagnosticHint.italic = true
-      hl.DiagnosticInfo.italic = true
-      hl.DiagnosticWarn.italic = true
-
-      return hl
-    end,
-    -- enable or disable highlighting for extra plugins
-    plugins = {
-      aerial = true,
-      beacon = false,
-      bufferline = false,
-      cmp = true,
-      dashboard = true,
-      highlighturl = true,
-      hop = false,
-      indent_blankline = true,
-      lightspeed = false,
-      ["neo-tree"] = true,
-      notify = true,
-      ["nvim-tree"] = false,
-      ["nvim-web-devicons"] = true,
-      rainbow = true,
-      symbols_outline = false,
-      telescope = true,
-      treesitter = true,
-      vimwiki = false,
-      ["which-key"] = true,
+    highlights = {
+      DiagnosticError = { italic = true },
+      DiagnosticHint = { italic = true },
+      DiagnosticInfo = { italic = true },
+      DiagnosticWarn = { italic = true },
     },
   },
-
   -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
   diagnostics = {
     virtual_text = false,
@@ -181,13 +135,7 @@ local config = {
           settings = {
             Lua = {
               workspace = {
-                -- These two libs give lots of useful vim symbols
-                library = {
-                  vim.fn.expand "$VIMRUNTIME",
-                  -- require("neodev"),
-                  require("neodev.config").types(),
-                },
-                checkThirdParty = false,
+                checkThirdParty = true,
                 maxPreload = 5000,
                 preloadFileSize = 10000,
               },
@@ -307,7 +255,6 @@ local config = {
     init = {
       -- You can disable default plugins as follows:
       -- ["goolord/alpha-nvim"] = { disable = true },
-      { "goolord/alpha-nvim", lazy = false },
       -- You can also add new plugins here as well:
       -- Add plugins, the packer syntax without the "use"
       -- { "andweeb/presence.nvim" },
@@ -320,38 +267,43 @@ local config = {
       -- },
 
       ["hrsh7th/nvim-cmp"] = {
+        event = "BufEnter",
         dependencies = {
-          ["hrsh7th/cmp-omni"] = {},
+          { "hrsh7th/cmp-omni" },
+          { "Maan2003/lsp_lines.nvim" },
+          { "L3MON4D3/LuaSnip" },
         },
       },
-      {
-        "morhetz/gruvbox",
+      ["morhetz/gruvbox"] = {},
+      ["folke/neodev.nvim"] = {},
+      ["mbbill/undotree"] = {
+        cmd = "UndotreeToggle",
       },
-      { "folke/neodev.nvim" },
-      { "mbbill/undotree", cmd = "UndotreeToggle" },
-      {
-        "cbochs/grapple.nvim",
+      ["cbochs/grapple.nvim"] = {
         dependencies = { "nvim-lua/plenary.nvim" },
+        config = function() require("grapple").setup { scope = require("grapple").resolvers.git } end,
       },
       --Theme
-      { "folke/tokyonight.nvim" },
-      { "nyoom-engineering/oxocarbon.nvim" },
-      {
-        "catppuccin/nvim",
+      ["folke/tokyonight.nvim"] = {},
+      ["nyoom-engineering/oxocarbon.nvim"] = {},
+      ["catppuccin/nvim"] = {
         config = function() require("catppuccin").setup { transparent_background = false } end,
       },
-      { "EdenEast/nightfox.nvim" },
-      { "navarasu/onedark.nvim" },
-      { "ggandor/leap.nvim", config = function() require("leap").add_default_mappings() end, keys = { "s", "S" } },
-      { "Maan2003/lsp_lines.nvim", config = function() require("lsp_lines").setup() end },
+      ["EdenEast/nightfox.nvim"] = {},
+      ["navarasu/onedark.nvim"] = {},
+      ["ggandor/leap.nvim"] = { config = function() require("leap").add_default_mappings() end, keys = { "s", "S" } },
+      ["Maan2003/lsp_lines.nvim"] = { config = function() require("lsp_lines").setup() end },
       ["nvim-lualine/lualine.nvim"] = {
         dependencies = { "nvim-web-devicons" },
         lazy = false,
-        config = function() require("lualine").setup { theme = "gruvbox" } end,
+        -- config = function() require("lualine").setup { theme = "gruvbox" } end,
+        config = function()
+          require "user.lualine_conf"
+          LUALINE_INIT()
+        end,
       },
       --Latex
-      {
-        "lervag/vimtex",
+      ["lervag/vimtex"] = {
         lazy = false,
         config = function()
           return {
@@ -397,9 +349,9 @@ local config = {
         end,
       },
     },
+
     cmp = function(config)
       local cmp = require "cmp"
-      require "luasnip"
       return astronvim.default_tbl({
         sources = cmp.config.sources {
           { name = "nvim_lsp", priority = 1000 },
@@ -409,6 +361,10 @@ local config = {
           { name = "path", priority = 250 },
         },
       }, config)
+    end,
+    heirline = function(config)
+      config[1] = nil
+      return config
     end,
     -- All other entries override the require("<key>").setup({...}) call for default plugins
     ["null-ls"] = function(config) -- overrides `require("null-ls").setup(config)`
@@ -425,6 +381,7 @@ local config = {
       }
       return config -- return final config table
     end,
+
     treesitter = { -- overrides `require("treesitter").setup(...)`
       ensure_installed = {
         "lua",
@@ -438,27 +395,12 @@ local config = {
       },
       disable = function(lang, _) return lang == "tex" or lang == "help" end,
     },
+
     mason = {
       log_level = vim.log.levels.DEBUG,
       PATH = "prepend",
     },
-    -- telescope = {
-    --   defaults = {
-    --     prompt_prefix = " ",
-    --     selection_caret = "❯ ",
-    --   },
-    --   extensions = {
-    --     fzf = {
-    --       fuzzy = true, -- false will only do exact matching
-    --       override_generic_sorter = true, -- override the generic sorter
-    --       override_file_sorter = true, -- override the file sorter
-    --       case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-    --       -- the default case_mode is "smart_case"
-    --     },
-    --   },
-    --   pickers = {
-    --   },
-    -- },
+
     -- use mason-lspconfig to configure LSP installations
     ["mason-lspconfig"] = function()
       require "lsp_lines"
@@ -492,23 +434,7 @@ local config = {
   -- This function is run last and is a good place to configuring
   -- augroups/autocommands and custom filetypes also this just pure lua so
   -- anything that doesn't fit in the normal config locations above can go here
-  polish = function()
-    -- Set up custom filetypes
-    -- vim.filetype.add {
-    --   extension = {
-    --     foo = "fooscript",
-    --   },
-    --   filename = {
-    --     ["Foofile"] = "fooscript",
-    --   },
-    --   pattern = {
-    --     ["~/%.config/foo/.*"] = "fooscript",
-    --   },
-    -- }
-    -- Here we call ftplugin (filetype plugins) manually for git repo reasons. :)
-    require "user.ftplugin.tex"
-    vim.opt.showtabline = 0 -- Toggle tabbline off
-  end,
+  polish = function() require "user.ftplugin.tex" end,
 }
 
 return config
