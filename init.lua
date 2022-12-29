@@ -307,6 +307,7 @@ local config = {
     init = {
       -- You can disable default plugins as follows:
       -- ["goolord/alpha-nvim"] = { disable = true },
+      { "goolord/alpha-nvim", lazy = false },
       -- You can also add new plugins here as well:
       -- Add plugins, the packer syntax without the "use"
       -- { "andweeb/presence.nvim" },
@@ -341,10 +342,10 @@ local config = {
       },
       { "EdenEast/nightfox.nvim" },
       { "navarasu/onedark.nvim" },
-      { "ggandor/leap.nvim", init = function() require("leap").add_default_mappings() end },
+      { "ggandor/leap.nvim", config = function() require("leap").add_default_mappings() end, keys = { "s", "S" } },
       { "Maan2003/lsp_lines.nvim", config = function() require("lsp_lines").setup() end },
       ["nvim-lualine/lualine.nvim"] = {
-        setup = function() require "nvim-web-devicons" end,
+        dependencies = { "nvim-web-devicons" },
         lazy = false,
         config = function() require("lualine").setup { theme = "gruvbox" } end,
       },
@@ -398,6 +399,7 @@ local config = {
     },
     cmp = function(config)
       local cmp = require "cmp"
+      require "luasnip"
       return astronvim.default_tbl({
         sources = cmp.config.sources {
           { name = "nvim_lsp", priority = 1000 },
