@@ -54,7 +54,7 @@ local config = {
       spell = false, -- sets vim.opt.spell
       signcolumn = "auto", -- sets vim.opt.signcolumn to auto
       wrap = false, -- sets vim.opt.wrap
-      showtabline = 0,
+      showtabline = 0, -- hide tab-line
     },
     g = {
       mapleader = " ", -- sets vim.g.mapleader
@@ -73,8 +73,8 @@ local config = {
     '      ,d888a                          ,d88888888888ba.  ,88"I)   d',
     '     a88\']8i                         a88".8"8)   `"8888:88  " _a8\'',
     "   .d8P' PP                        .d8P'.8  d)      \"8:88:baad8P'",
-    "  ,d8P' ,ama,   .aa,  .ama.g ,mmm  d8P' 8  .8'        88):888P'",
-    ' ,d88\' d8[ "8..a8"88 ,8I"88[ I88\' d88   ]IaI"        d8[         ',
+    "  ,d8P' ,ama,   .aa,  .ama.g       d8P' 8  .8'        88):888P'",
+    ' ,d88\' d8[ "8..a8"88 ,8I"88[     /d88   ]IaI"        d8[         ',
     " a88' dP \"bm8mP8'(8'.8I  8[      d88'    `\"         .88          ",
     ",88I ]8'  .d'.8     88' ,8' I[  ,88P ,ama    ,ama,  d8[  .ama.g",
     "[88' I8, .d' ]8,  ,88B ,d8 aI   (88',88\"8)  d8[ \"8. 88 ,8I\"88[",
@@ -86,10 +86,10 @@ local config = {
   -- Default theme configuration
   default_theme = {
     highlights = {
-      DiagnosticError = { italic = true },
-      DiagnosticHint = { italic = true },
-      DiagnosticInfo = { italic = true },
-      DiagnosticWarn = { italic = true },
+      DiagnosticError = { italic = false },
+      DiagnosticHint = { italic = false },
+      DiagnosticInfo = { italic = false },
+      DiagnosticWarn = { italic = false },
     },
   },
   -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
@@ -127,6 +127,13 @@ local config = {
     mappings = {
       n = {
         -- ["<leader>lf"] = false -- disable formatting keymap
+        ["<leader>la"] = {
+          function()
+            local curr_row = vim.api.nvim_win_get_cursor(0)[1]
+            vim.lsp.buf.code_action { ["range"] = { ["start"] = { curr_row, 0 }, ["end"] = { curr_row, 100 } } }
+          end,
+          desc = "Code Action On Line",
+        },
       },
     },
     config = {
@@ -136,8 +143,6 @@ local config = {
             Lua = {
               workspace = {
                 checkThirdParty = true,
-                maxPreload = 5000,
-                preloadFileSize = 10000,
               },
             },
           },
@@ -265,13 +270,22 @@ local config = {
       --     require("lsp_signature").setup()
       --   end,
       -- },
-
+      ["rebelot/heirline.nvim"] = {
+        enabled = false,
+        disabled = true,
+      },
       ["hrsh7th/nvim-cmp"] = {
-        event = "BufEnter",
+        event = "VeryLazy",
         dependencies = {
           { "hrsh7th/cmp-omni" },
+          { "hrsh7th/cmp-nvim-lua" },
+          { "hrsh7th/cmp-nvim-lsp" },
+          { "hrsh7th/cmp-path" },
+          { "hrsh7th/cmp-buffer" },
+          { "saadparwaiz1/cmp_luasnip" },
           { "Maan2003/lsp_lines.nvim" },
           { "L3MON4D3/LuaSnip" },
+          { "folke/neodev.nvim" },
         },
       },
       ["morhetz/gruvbox"] = {},
@@ -333,18 +347,18 @@ local config = {
           local cond = require "nvim-autopairs.conds"
           npairs.add_rules {
             Rule("$", "$", { "tex", "latex" })
-                -- don't add a pair if the next character is %
-                :with_pair(cond.not_after_regex "%%")
-                -- don't add a pair if  the previous character is xxx
-                :with_pair(
-                  cond.not_before_regex("xxx", 3)
-                )
-                -- don't move right when repeat character
-                :with_move(cond.none())
-                -- don't delete if the next character is xx
-                :with_del(cond.not_after_regex "xx")
-                -- disable adding a newline when you press <cr>
-                :with_cr(cond.none()),
+              -- don't add a pair if the next character is %
+              :with_pair(cond.not_after_regex "%%")
+              -- don't add a pair if  the previous character is xxx
+              :with_pair(
+                cond.not_before_regex("xxx", 3)
+              )
+              -- don't move right when repeat character
+              :with_move(cond.none())
+              -- don't delete if the next character is xx
+              :with_del(cond.not_after_regex "xx")
+              -- disable adding a newline when you press <cr>
+              :with_cr(cond.none()),
           }
         end,
       },
@@ -356,16 +370,19 @@ local config = {
         sources = cmp.config.sources {
           { name = "nvim_lsp", priority = 1000 },
           { name = "omni", priority = 750 },
+          { name = "nvim_lua", priority = 750 }, -- only enables itself inside of lua, as it should :)
           { name = "luasnip", priority = 750 },
-          { name = "buffer", priority = 500 },
+          { name = "buffer", priority = 500, keyword_length = 5 },
           { name = "path", priority = 250 },
         },
       }, config)
     end,
+
     heirline = function(config)
       config[1] = nil
       return config
     end,
+
     -- All other entries override the require("<key>").setup({...}) call for default plugins
     ["null-ls"] = function(config) -- overrides `require("null-ls").setup(config)`
       -- config variable is the default configuration table for the setup function call
