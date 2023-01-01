@@ -28,17 +28,18 @@ local config = {
       -- return a table of highlights for telescope based on colors gotten from highlight groups
       return {
         DashboardHeader = { fg = "#FE001A" },
-        DashboardFooter = { fg = "#000000" },
+        DashboardFooter = { fg = "#FBF1C7" },
+        FloatBorder = { fg = "#458588" },
         TelescopeBorder = { fg = bg_alt, bg = bg },
         TelescopeNormal = { bg = bg },
-        TelescopePreviewBorder = { fg = bg, bg = bg },
+        TelescopePreviewBorder = { fg = red, bg = bg },
         TelescopePreviewNormal = { bg = bg },
-        TelescopePreviewTitle = { fg = bg, bg = green },
-        TelescopePromptBorder = { fg = bg_alt, bg = bg_alt },
-        TelescopePromptNormal = { fg = fg, bg = bg_alt },
-        TelescopePromptPrefix = { fg = red, bg = bg_alt },
+        TelescopePreviewTitle = { fg = red, bg = bg },
+        TelescopePromptBorder = { fg = bg_alt, bg = bg },
+        TelescopePromptNormal = { fg = fg, bg = bg },
+        TelescopePromptPrefix = { fg = red, bg = bg },
         TelescopePromptTitle = { fg = bg, bg = red },
-        TelescopeResultsBorder = { fg = bg, bg = bg },
+        TelescopeResultsBorder = { fg = bg_alt, bg = bg },
         TelescopeResultsNormal = { bg = bg },
         TelescopeResultsTitle = { fg = bg, bg = bg },
       }
@@ -241,6 +242,7 @@ local config = {
         function() require("telescope.builtin").find_files { hidden = true, no_ignore = true } end,
         desc = "Search all files",
       },
+      ["<leader>sH"] = { "<cmd>Telescope highlights<cr>", desc = "Search Highlight Group" },
     },
     t = {
       -- setting a mapping to false will disable it
@@ -270,9 +272,11 @@ local config = {
       --     require("lsp_signature").setup()
       --   end,
       -- },
+      -- in the future lets try and use this
+      -- ["debugloop/telescope-undo.nvim"] = { lazy = false },
       ["rebelot/heirline.nvim"] = {
-        enabled = false,
-        disabled = true,
+        -- enabled = false,
+        -- disabled = true,
       },
       ["hrsh7th/nvim-cmp"] = {
         event = "VeryLazy",
@@ -295,11 +299,21 @@ local config = {
       },
       ["cbochs/grapple.nvim"] = {
         dependencies = { "nvim-lua/plenary.nvim" },
-        config = function() require("grapple").setup { scope = require("grapple").resolvers.git } end,
+        config = function()
+          require("grapple").setup {
+            scope = require("grapple").resolvers.git,
+            popup_options = {
+              relative = "editor",
+              width = 60,
+              height = 12,
+              style = "minimal",
+              border = "rounded",
+            },
+          }
+        end,
       },
       --Theme
       ["folke/tokyonight.nvim"] = {},
-      ["nyoom-engineering/oxocarbon.nvim"] = {},
       ["catppuccin/nvim"] = {
         config = function() require("catppuccin").setup { transparent_background = false } end,
       },
@@ -367,6 +381,7 @@ local config = {
     cmp = function(config)
       local cmp = require "cmp"
       return astronvim.default_tbl({
+        -- },
         sources = cmp.config.sources {
           { name = "nvim_lsp", priority = 1000 },
           { name = "omni", priority = 750 },
