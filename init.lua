@@ -28,7 +28,9 @@ local config = {
       -- return a table of highlights for telescope based on colors gotten from highlight groups
       return {
         DashboardHeader = { fg = "#FE001A" },
-        DashboardFooter = { fg = "#FBF1C7" },
+        DashboardFooter = { fg = "#FE001A" },
+        DashboardShortcut = { fg = "#FBF1C7" },
+        DashboardCenter = { fg = "#FBF1C7" },
         FloatBorder = { fg = "#458588" },
         TelescopeBorder = { fg = bg_alt, bg = bg },
         TelescopeNormal = { bg = bg },
@@ -55,7 +57,7 @@ local config = {
       spell = false, -- sets vim.opt.spell
       signcolumn = "auto", -- sets vim.opt.signcolumn to auto
       wrap = false, -- sets vim.opt.wrap
-      showtabline = 0, -- hide tab-line
+      -- showtabline = 0, -- hide tab-line
     },
     g = {
       mapleader = " ", -- sets vim.g.mapleader
@@ -243,6 +245,17 @@ local config = {
         desc = "Search all files",
       },
       ["<leader>sH"] = { "<cmd>Telescope highlights<cr>", desc = "Search Highlight Group" },
+
+      -- Now <leader>fw fuzzy finds words in all files and <leader>fW looks only at git tracked files :)
+      ["<leader>fW"] = { function() require("telescope.builtin").live_grep() end, desc = "Search words" },
+      ["<leader>fw"] = {
+        function()
+          require("telescope.builtin").live_grep {
+            additional_args = function(args) return vim.list_extend(args, { "--hidden", "--no-ignore" }) end,
+          }
+        end,
+        desc = "Search words in all files",
+      },
     },
     t = {
       -- setting a mapping to false will disable it
@@ -255,7 +268,7 @@ local config = {
   },
 
   -- Set colorscheme to use
-  colorscheme = "gruvbox",
+  colorscheme = "kanagawa",
 
   -- Configure plugins
   plugins = {
@@ -274,6 +287,10 @@ local config = {
       -- },
       -- in the future lets try and use this
       -- ["debugloop/telescope-undo.nvim"] = { lazy = false },
+      ["j-hui/fidget.nvim"] = { -- Provides info on the status of the LSP
+        config = function() require("fidget").setup {} end,
+        lazy = false,
+      },
       ["rebelot/heirline.nvim"] = {
         -- enabled = false,
         -- disabled = true,
@@ -291,6 +308,17 @@ local config = {
           { "L3MON4D3/LuaSnip" },
           { "folke/neodev.nvim" },
         },
+      },
+      ["rebelot/kanagawa.nvim"] = {
+        init = function()
+          require("kanagawa").setup {
+            commentStyle = { italic = false },
+            functionStyle = { italic = false },
+            keywordStyle = { italic = false },
+            statementStyle = { italic = false },
+            variablebuiltinStyle = { italic = false },
+          }
+        end,
       },
       ["morhetz/gruvbox"] = {},
       ["folke/neodev.nvim"] = {},
