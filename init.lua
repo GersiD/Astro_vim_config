@@ -188,6 +188,9 @@ local config = {
           settings = {
             Lua = {
               workspace = {
+                Library = {
+                  require("neodev.config").types(),
+                },
                 checkThirdParty = true,
               },
             },
@@ -344,7 +347,7 @@ local config = {
           }
         end,
       },
-      ["folke/neodev.nvim"] = {},
+      ["folke/neodev.nvim"] = { config = function() require("neodev").setup() end },
       ["mbbill/undotree"] = {},
       ["cbochs/grapple.nvim"] = {
         setup = function() require "plenary" end,
@@ -418,6 +421,14 @@ local config = {
               :with_cr(cond.none()),
           }
         end,
+        ["hrsh7th/nvim-cmp"] = {},
+        ["hrsh7th/cmp-omni"] = {},
+        ["hrsh7th/cmp-nvim-lua"] = {},
+        ["hrsh7th/cmp-nvim-lsp"] = {},
+        ["hrsh7th/cmp-path"] = {},
+        ["hrsh7th/cmp-buffer"] = {},
+        ["saadparwaiz1/cmp_luasnip"] = {},
+        ["L3MON4D3/LuaSnip"] = {},
       },
       -- We also support a key value style plugin definition similar to NvChad:
       -- ["ray-x/lsp_signature.nvim"] = {
@@ -446,7 +457,6 @@ local config = {
       ensure_installed = {
         "lua",
         "python",
-        "latex",
         "julia",
         "java",
         "rust",
@@ -476,12 +486,12 @@ local config = {
     -- },
     -- use mason-lspconfig to configure LSP installations
     ["mason-lspconfig"] = { -- overrides `require("mason-lspconfig").setup(...)`
-      -- ensure_installed = { "sumneko_lua" },
+      ensure_installed = { "sumneko_lua", "ltex", "texlab" },
       PATH = "prepend",
     },
     -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
     ["mason-null-ls"] = { -- overrides `require("mason-null-ls").setup(...)`
-      -- ensure_installed = { "prettier", "stylua" },
+      ensure_installed = { "stylua" },
     },
   },
   -- LuaSnip Options
@@ -549,6 +559,9 @@ local config = {
     -- }
     -- Here we call ftplugin (filetype plugins) manually for git repo reasons. :)
     require "user.ftplugin.tex"
+    -- vim.api.nvim_create_autocmd()
+    astronvim.add_user_cmp_source { name = "omni", priority = 1000 }
+    astronvim.add_user_cmp_source { name = "nvim_lua", priority = 750 }
   end,
 }
 
