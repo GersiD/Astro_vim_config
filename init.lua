@@ -36,6 +36,7 @@ local config = {
       local red = astronvim.get_hlgroup("Error").fg
       -- return a table of highlights for telescope based on colors gotten from highlight groups
       return {
+        NvimSurroundHighlight = { fg = "#7FB4CA" },
         DashboardHeader = { fg = "#FE001A" },
         DashboardFooter = { fg = "#FE001A" },
         DashboardShortcut = { fg = "#FBF1C7" },
@@ -188,7 +189,7 @@ local config = {
           settings = {
             Lua = {
               workspace = {
-                Library = {
+                library = {
                   require("neodev.config").types(),
                 },
                 checkThirdParty = true,
@@ -278,8 +279,8 @@ local config = {
         desc = "Quit",
       },
       ["<C-f>"] = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search current buffer" },
-      ["<M-j>"] = { "15jzz", desc = "Jump Dowm" },
-      ["<M-k>"] = { "15kzz", desc = "Jump Up" },
+      ["<M-j>"] = { "15j", desc = "Jump Dowm" },
+      ["<M-k>"] = { "15k", desc = "Jump Up" },
       -- tweak the find files shortcuts
       -- please note that by default <leader>ff finds only git tracked files and not "hidden" ones
       -- now <leader>ff finds all files and <leader>fF only looks at git tracked files
@@ -293,6 +294,7 @@ local config = {
         desc = "Search all files",
       },
       ["<leader>sH"] = { "<cmd>Telescope highlights<cr>", desc = "Search Highlight Group" },
+      ["<leader>su"] = { "<cmd>Telescope undo<cr>", desc = "Search undo" },
 
       -- Now <leader>fw fuzzy finds words in all files and <leader>fW looks only at git tracked files :)
       ["<leader>fW"] = { function() require("telescope.builtin").live_grep() end, desc = "Search words" },
@@ -304,6 +306,14 @@ local config = {
         end,
         desc = "Search words in all files",
       },
+      ["]n"] = { "<cmd>call search('^.\\+')<cr>", desc = "Next non-empty line" },
+      ["[n"] = { "<cmd>call search('^.\\+', 'b')<cr>", desc = "Prev non-empty line" },
+      ["]N"] = { "}", desc = "Next empty line" },
+      ["[N"] = { "{", desc = "Prev empty line" },
+      ["\\"] = false,
+      ["-"] = { "<C-w>-", desc = "Decrease height" },
+      ["="] = { "<C-w>+", desc = "Increase height" },
+      ["ge"] = { "$", desc = "Goto line end" },
     },
     t = {
       -- setting a mapping to false will disable it
@@ -333,6 +343,7 @@ local config = {
       --     require("lsp_signature").setup()
       --   end,
       -- },
+      ["ThePrimeagen/vim-be-good"] = {},
       ["j-hui/fidget.nvim"] = { -- Provides info on the status of the LSP
         config = function() require("fidget").setup {} end,
       },
@@ -375,8 +386,21 @@ local config = {
         -- setup = function() require('onedark').setup { style = 'deep' } end,
         -- config = function() require "onedark" end,
       },
-      ["ggandor/leap.nvim"] = {
-        config = function() require("leap").add_default_mappings() end,
+      ["kylechui/nvim-surround"] = {
+        config = function()
+          require("nvim-surround").setup {
+            keymaps = {
+              normal = "s",
+              visual = "s",
+            },
+            aliases = {
+              ["s"] = "]", -- Square brackets
+              ["p"] = ")", -- Paren
+              ["b"] = "}", -- Brackets
+              ["q"] = '"', -- Quotes
+            },
+          }
+        end,
       },
       ["Maan2003/lsp_lines.nvim"] = {
         config = function() require("lsp_lines").setup() end,
@@ -430,13 +454,6 @@ local config = {
         ["saadparwaiz1/cmp_luasnip"] = {},
         ["L3MON4D3/LuaSnip"] = {},
       },
-      -- We also support a key value style plugin definition similar to NvChad:
-      -- ["ray-x/lsp_signature.nvim"] = {
-      --   event = "BufRead",
-      --   config = function()
-      --     require("lsp_signature").setup()
-      --   end,
-      -- },
     },
     -- All other entries override the require("<key>").setup({...}) call for default plugins
     ["null-ls"] = function(config) -- overrides `require("null-ls").setup(config)`
@@ -473,16 +490,8 @@ local config = {
     --     selection_caret = "❯ ",
     --   },
     --   extensions = {
-    --     fzf = {
-    --       fuzzy = true, -- false will only do exact matching
-    --       override_generic_sorter = true, -- override the generic sorter
-    --       override_file_sorter = true, -- override the file sorter
-    --       case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-    --       -- the default case_mode is "smart_case"
-    --     },
     --   },
-    --   pickers = {
-    --   },
+    --   pickers = {},
     -- },
     -- use mason-lspconfig to configure LSP installations
     ["mason-lspconfig"] = { -- overrides `require("mason-lspconfig").setup(...)`
@@ -520,6 +529,8 @@ local config = {
     source_priority = {
       nvim_lsp = 1000,
       luasnip = 750,
+      nvim_lua = 750,
+      omni = 500,
       buffer = 500,
       path = 250,
     },
@@ -558,7 +569,12 @@ local config = {
     --   },
     -- }
     -- Here we call ftplugin (filetype plugins) manually for git repo reasons. :)
-    require "user.ftplugin.tex"
+    -- Useful functions to know about
+    --  vim.inspect() -- pretty prints a table
+    vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+      pattern = { "*.tex" },
+      callback = function() require "user.ftplugin.tex" end,
+    })
     -- vim.api.nvim_create_autocmd()
     astronvim.add_user_cmp_source { name = "omni", priority = 1000 }
     astronvim.add_user_cmp_source { name = "nvim_lua", priority = 750 }
