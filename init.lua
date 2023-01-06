@@ -342,26 +342,31 @@ local config = {
       --     require("lsp_signature").setup()
       --   end,
       -- },
+      ["hrsh7th/nvim-cmp"] = {
+        event = "VeryLazy",
+        dependencies = {
+          { "hrsh7th/cmp-omni" },
+          { "hrsh7th/cmp-nvim-lua" },
+          { "hrsh7th/cmp-nvim-lsp" },
+          { "hrsh7th/cmp-path" },
+          { "hrsh7th/cmp-buffer" },
+          { "saadparwaiz1/cmp_luasnip" },
+          { "Maan2003/lsp_lines.nvim" },
+          { "L3MON4D3/LuaSnip" },
+          { "folke/neodev.nvim" },
+          { "j-hui/fidget.nvim" },
+        },
+      },
       ["ThePrimeagen/vim-be-good"] = {},
       ["j-hui/fidget.nvim"] = { -- Provides info on the status of the LSP
         event = "VeryLazy",
         config = function() require("fidget").setup {} end,
       },
-      ["rebelot/kanagawa.nvim"] = {
-        config = function()
-          require("kanagawa").setup {
-            commentStyle = { italic = false },
-            functionStyle = { italic = false },
-            keywordStyle = { italic = false },
-            statementStyle = { italic = false },
-            variablebuiltinStyle = { italic = false },
-          }
-        end,
-      },
       ["folke/neodev.nvim"] = { config = function() require("neodev").setup() end },
       ["mbbill/undotree"] = {},
       ["cbochs/grapple.nvim"] = {
-        setup = function() require "plenary" end,
+        event = "VimEnter",
+        init = function() require "plenary" end,
         config = function()
           require("grapple").setup {
             scope = require("grapple").resolvers.git,
@@ -375,18 +380,8 @@ local config = {
           }
         end,
       },
-      --Theme
-      ["folke/tokyonight.nvim"] = {},
-      ["nyoom-engineering/oxocarbon.nvim"] = {},
-      ["catppuccin/nvim"] = {
-        config = function() require("catppuccin").setup { transparent_background = false } end,
-      },
-      ["EdenEast/nightfox.nvim"] = {},
-      ["navarasu/onedark.nvim"] = {
-        -- setup = function() require('onedark').setup { style = 'deep' } end,
-        -- config = function() require "onedark" end,
-      },
       ["kylechui/nvim-surround"] = {
+        event = "VeryLazy",
         config = function()
           require("nvim-surround").setup {
             keymaps = {
@@ -407,27 +402,28 @@ local config = {
         config = function() require("lsp_lines").setup() end,
       },
       ["nvim-lualine/lualine.nvim"] = {
-        setup = function() require "nvim-web-devicons" end,
+        lazy = false,
+        dependencies = { "nvim-web-devicons" },
         config = function()
           require "user.lualine_conf"
           LUALINE_INIT()
         end,
         -- config = function() require('lualine').setup { theme = 'auto' } end,
       },
-      ["folke/drop.nvim"] = {
-        event = "VimEnter",
-        config = function() require("drop").setup { screensaver = false, theme = "leaves", max = 40, interval = 150 } end,
-      },
       --Latex
       ["lervag/vimtex"] = {
-        config = {
-          ["vimtex_view_general_viewer"] = "SumatraPDF",
-          ["vimtex_view_method"] = "SumatraPDF",
-          ["vimtex_view_general_options"] = "-reuse-instance -forward-search @tex @line @pdf",
-          ["vimtex_view_general_options_latexmk"] = "-reuse-instance",
-        },
+        lazy = false,
+        config = function()
+          return {
+            ["vimtex_view_general_viewer"] = "SumatraPDF",
+            ["vimtex_view_method"] = "SumatraPDF",
+            ["vimtex_view_general_options"] = "-reuse-instance -forward-search @tex @line @pdf",
+            ["vimtex_view_general_options_latexmk"] = "-reuse-instance",
+          }
+        end,
       },
       ["windwp/nvim-autopairs"] = {
+        event = "InsertEnter",
         config = function()
           require "configs.autopairs" -- include the default astronvim config that calls the setup call
           -- add more custom autopairs configuration such as custom rules
@@ -450,30 +446,50 @@ local config = {
               :with_cr(cond.none()),
           }
         end,
-        ["L3MON4D3/LuaSnip"] = {
-          config = function()
-            require "configs.luasnip" -- include the default astronvim config that calls the setup call
-            -- add more custom luasnip configuration such as filetype extend or custom snippets
-            local luasnip_loader = require "luasnip.loaders.from_lua"
-            luasnip_loader.lazy_load {
-              paths = { "C:/Users/gersi/AppData/Local/nvim/lua/user/snippets/" },
-            }
-          end,
-        },
-        ["hrsh7th/nvim-cmp"] = {
-          event = "VeryLazy",
-          dependencies = {
-            { "hrsh7th/cmp-omni" },
-            { "hrsh7th/cmp-nvim-lua" },
-            { "hrsh7th/cmp-nvim-lsp" },
-            { "hrsh7th/cmp-path" },
-            { "hrsh7th/cmp-buffer" },
-            { "saadparwaiz1/cmp_luasnip" },
-            { "Maan2003/lsp_lines.nvim" },
-            { "L3MON4D3/LuaSnip" },
-            { "folke/neodev.nvim" },
-          },
-        },
+      },
+      ["L3MON4D3/LuaSnip"] = {
+        config = function()
+          require "configs.luasnip" -- include the default astronvim config that calls the setup call
+          -- add more custom luasnip configuration such as filetype extend or custom snippets
+          local luasnip_loader = require "luasnip.loaders.from_lua"
+          luasnip_loader.lazy_load {
+            paths = { "C:\\Users\\gersi\\AppData\\Local\\nvim\\lua\\user\\snippets\\" },
+          }
+        end,
+      },
+
+      -- Themes
+      ["rebelot/kanagawa.nvim"] = {
+        config = function()
+          require("kanagawa").setup {
+            commentStyle = { italic = false },
+            functionStyle = { italic = false },
+            keywordStyle = { italic = false },
+            statementStyle = { italic = false },
+            variablebuiltinStyle = { italic = false },
+          }
+        end,
+      },
+      ["folke/tokyonight.nvim"] = {},
+      ["nyoom-engineering/oxocarbon.nvim"] = {},
+      ["catppuccin/nvim"] = {
+        config = function() require("catppuccin").setup { transparent_background = false } end,
+      },
+      ["EdenEast/nightfox.nvim"] = {},
+      ["navarasu/onedark.nvim"] = {
+        -- setup = function() require('onedark').setup { style = 'deep' } end,
+        -- config = function() require "onedark" end,
+      },
+      ["folke/drop.nvim"] = {
+        event = "VimEnter",
+        config = function()
+          require("drop").setup {
+            screensaver = false,
+            theme = "leaves",
+            max = 40,
+            interval = 150,
+          }
+        end,
       },
     },
     -- All other entries override the require("<key>").setup({...}) call for default plugins
@@ -524,21 +540,6 @@ local config = {
       ensure_installed = { "stylua" },
     },
   },
-  -- LuaSnip Options
-  luasnip = {
-    -- Extend filetypes
-    filetype_extend = {
-      -- javascript = { "javascriptreact" },
-    },
-    -- Configure luasnip loaders (vscode, lua, and/or snipmate)
-    lua_snippet_paths = {
-      "C:/Users/gersi/AppData/Local/nvim/lua/user/snippets",
-    },
-    vscode = {
-      -- Add paths for including more VS Code style snippets in luasnip
-      paths = {},
-    },
-  },
 
   -- CMP Source Priorities
   -- modify here the priorities of default cmp sources
@@ -549,7 +550,6 @@ local config = {
   cmp = function(config)
     local cmp = require "cmp"
     return astronvim.default_tbl({
-      -- },
       sources = cmp.config.sources {
         { name = "nvim_lsp", priority = 1000 },
         { name = "omni", priority = 750 },
@@ -559,11 +559,6 @@ local config = {
         { name = "path", priority = 250 },
       },
     }, config)
-  end,
-
-  heirline = function(config)
-    config[1] = nil
-    return config
   end,
 
   -- Modify which-key registration (Use this with mappings table in the above.)
@@ -606,6 +601,8 @@ local config = {
       callback = function() require "user.ftplugin.tex" end,
     })
     -- vim.api.nvim_create_autocmd()
+    -- astronvim.add_user_cmp_source { name = "omni", priority = 1000 }
+    -- astronvim.add_user_cmp_source { name = "nvim_lua", priority = 750 }
   end,
 }
 
