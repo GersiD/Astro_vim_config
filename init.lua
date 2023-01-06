@@ -260,7 +260,6 @@ local config = {
       ["<leader>uu"] = { "<cmd>UndotreeToggle<cr><cmd>UndotreeFocus<cr>", desc = "Open Undo Tree" },
       ["<leader>hh"] = { "<cmd>GrapplePopup tags<cr>", desc = "Harpoon View" },
       ["<leader>ha"] = { '<cmd>lua require("grapple").toggle()<cr>', desc = "Harpoon Add File" },
-      ["<leader>r"] = { "<cmd>AstroReload<cr>", desc = "Reaload AstroNvim" },
       -- shortcut for starting the default lst for a file
       ["<leader>lS"] = { "<cmd>LspStart<cr>", desc = "Start LSP" },
       -- quick save
@@ -398,6 +397,7 @@ local config = {
               ["p"] = ")", -- Paren
               ["b"] = "}", -- Brackets
               ["q"] = '"', -- Quotes
+              ["m"] = "$", -- Math (latex)
             },
           }
         end,
@@ -412,6 +412,10 @@ local config = {
           LUALINE_INIT()
         end,
         -- config = function() require('lualine').setup { theme = 'auto' } end,
+      },
+      ["folke/drop.nvim"] = {
+        event = "VimEnter",
+        config = function() require("drop").setup { screensaver = false, theme = "leaves", max = 40, interval = 150 } end,
       },
       --Latex
       ["lervag/vimtex"] = {

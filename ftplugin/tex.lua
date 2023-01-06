@@ -14,7 +14,8 @@ vim.cmd [[
     imap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<S-Tab>'
     smap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<S-Tab>'
     nnoremap <leader>lC <cmd>VimtexStopThenClean<cr>
-    nnoremap <leader>lc <cmd>VimtexClean<cr>
+    nnoremap <leader>lc <cmd>VimtexCompile<cr>
+    nnoremap <leader>lv <cmd>VimtexView<cr>
   ]]
 
 -- Lets silence some errors :)
