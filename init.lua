@@ -8,9 +8,9 @@ local config = {
   -- Configure AstroNvim updates
   updater = {
     remote = "origin", -- remote to use
-    channel = "stable", -- "stable" or "nightly"
+    channel = "nightly", -- "stable" or "nightly"
     version = "latest", -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
-    branch = "main", -- branch name (NIGHTLY ONLY)
+    branch = "v3", -- branch name (NIGHTLY ONLY)
     commit = nil, -- commit hash (NIGHTLY ONLY)
     pin_plugins = nil, -- nil, true, false (nil will pin plugins on stable only)
     skip_prompts = false, -- skip prompts about breaking changes
@@ -344,6 +344,7 @@ local config = {
       -- },
       ["ThePrimeagen/vim-be-good"] = {},
       ["j-hui/fidget.nvim"] = { -- Provides info on the status of the LSP
+        event = "VeryLazy",
         config = function() require("fidget").setup {} end,
       },
       ["rebelot/kanagawa.nvim"] = {
@@ -449,14 +450,30 @@ local config = {
               :with_cr(cond.none()),
           }
         end,
-        ["hrsh7th/nvim-cmp"] = {},
-        ["hrsh7th/cmp-omni"] = {},
-        ["hrsh7th/cmp-nvim-lua"] = {},
-        ["hrsh7th/cmp-nvim-lsp"] = {},
-        ["hrsh7th/cmp-path"] = {},
-        ["hrsh7th/cmp-buffer"] = {},
-        ["saadparwaiz1/cmp_luasnip"] = {},
-        ["L3MON4D3/LuaSnip"] = {},
+        ["L3MON4D3/LuaSnip"] = {
+          config = function()
+            require "configs.luasnip" -- include the default astronvim config that calls the setup call
+            -- add more custom luasnip configuration such as filetype extend or custom snippets
+            local luasnip_loader = require "luasnip.loaders.from_lua"
+            luasnip_loader.lazy_load {
+              paths = { "C:/Users/gersi/AppData/Local/nvim/lua/user/snippets/" },
+            }
+          end,
+        },
+        ["hrsh7th/nvim-cmp"] = {
+          event = "VeryLazy",
+          dependencies = {
+            { "hrsh7th/cmp-omni" },
+            { "hrsh7th/cmp-nvim-lua" },
+            { "hrsh7th/cmp-nvim-lsp" },
+            { "hrsh7th/cmp-path" },
+            { "hrsh7th/cmp-buffer" },
+            { "saadparwaiz1/cmp_luasnip" },
+            { "Maan2003/lsp_lines.nvim" },
+            { "L3MON4D3/LuaSnip" },
+            { "folke/neodev.nvim" },
+          },
+        },
       },
     },
     -- All other entries override the require("<key>").setup({...}) call for default plugins
@@ -529,16 +546,25 @@ local config = {
   -- The value can also be set to a boolean for disabling default sources:
   -- false == disabled
   -- true == 1000
-  cmp = {
-    source_priority = {
-      nvim_lsp = 1000,
-      luasnip = 750,
-      nvim_lua = 750,
-      omni = 500,
-      buffer = 500,
-      path = 250,
-    },
-  },
+  cmp = function(config)
+    local cmp = require "cmp"
+    return astronvim.default_tbl({
+      -- },
+      sources = cmp.config.sources {
+        { name = "nvim_lsp", priority = 1000 },
+        { name = "omni", priority = 750 },
+        { name = "nvim_lua", priority = 750 }, -- only enables itself inside of lua, as it should :)
+        { name = "luasnip", priority = 750 },
+        { name = "buffer", priority = 500, keyword_length = 5 },
+        { name = "path", priority = 250 },
+      },
+    }, config)
+  end,
+
+  heirline = function(config)
+    config[1] = nil
+    return config
+  end,
 
   -- Modify which-key registration (Use this with mappings table in the above.)
   ["which-key"] = {
@@ -580,8 +606,6 @@ local config = {
       callback = function() require "user.ftplugin.tex" end,
     })
     -- vim.api.nvim_create_autocmd()
-    astronvim.add_user_cmp_source { name = "omni", priority = 1000 }
-    astronvim.add_user_cmp_source { name = "nvim_lua", priority = 750 }
   end,
 }
 
