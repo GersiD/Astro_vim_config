@@ -1,22 +1,22 @@
 --              AstroNvim Configuration Table
 -- All configuration changes should go inside of the table below
-
 -- You can think of a Lua "table" as a dictionary like data structure the
 -- normal format is "key = value". These also handle array like data structures
 -- where a value with no key simply has an implicit numeric key
+
 local config = {
   -- Configure AstroNvim updates
   updater = {
-    remote = "origin",     -- remote to use
-    channel = "nightly",   -- "stable" or "nightly"
-    version = "latest",    -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
-    branch = "nightly",    -- branch name (NIGHTLY ONLY)
-    commit = nil,          -- commit hash (NIGHTLY ONLY)
-    pin_plugins = nil,     -- nil, true, false (nil will pin plugins on stable only)
-    skip_prompts = false,  -- skip prompts about breaking changes
+    remote = "origin", -- remote to use
+    channel = "nightly", -- "stable" or "nightly"
+    version = "latest", -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
+    branch = "nightly", -- branch name (NIGHTLY ONLY)
+    commit = nil, -- commit hash (NIGHTLY ONLY)
+    pin_plugins = nil, -- nil, true, false (nil will pin plugins on stable only)
+    skip_prompts = false, -- skip prompts about breaking changes
     show_changelog = true, -- show the changelog after performing an update
-    auto_reload = true,    -- automatically reload and sync packer after a successful update
-    auto_quit = false,     -- automatically quit the current session after a successful update
+    auto_reload = true, -- automatically reload and sync packer after a successful update
+    auto_quit = false, -- automatically quit the current session after a successful update
   },
   -- Add highlight groups in any theme
   highlights = {
@@ -39,13 +39,13 @@ local config = {
         DashboardCenter = { fg = "#FBF1C7" },
         FloatBorder = { fg = "#458588" },
         -- Which Key
-        WhichKey = { fg = "#98971a" },                      -- Controls the color of the key
-        WhichKeyDesc = { fg = "#a89984" },                  -- Controls the desc of a key
+        WhichKey = { fg = "#98971a" }, -- Controls the color of the key
+        WhichKeyDesc = { fg = "#a89984" }, -- Controls the desc of a key
         WhichKeyFloat = { bg = "#282828", fg = "#a89984" }, -- Controls the background
-        WhichKeyGroup = { fg = "#0A4E22" },                 -- Controls the groups
-        WhichKeyValue = {},                                 -- No one knows
-        WhichKeyBorder = {},                                -- No one knows
-        WhichKeySeparator = {},                             -- Controls the white space between shit
+        WhichKeyGroup = { fg = "#0A4E22" }, -- Controls the groups
+        WhichKeyValue = {}, -- No one knows
+        WhichKeyBorder = {}, -- No one knows
+        WhichKeySeparator = {}, -- Controls the white space between shit
       }
     end,
   },
@@ -54,20 +54,20 @@ local config = {
     opt = {
       -- set to true or false etc.
       relativenumber = true, -- sets vim.opt.relativenumber
-      number = true,         -- sets vim.opt.number
-      spell = false,         -- sets vim.opt.spell
-      signcolumn = "auto",   -- sets vim.opt.signcolumn to auto
-      wrap = true,           -- sets vim.opt.wrap
+      number = true, -- sets vim.opt.number
+      spell = false, -- sets vim.opt.spell
+      signcolumn = "auto", -- sets vim.opt.signcolumn to auto
+      wrap = true, -- sets vim.opt.wrap
     },
     g = {
-      mapleader = " ",                   -- sets vim.g.mapleader
-      autoformat_enabled = true,         -- enable or disable auto formatting at start (lsp.formatting.format_on_save must be enabled)
-      cmp_enabled = true,                -- enable completion at start
-      autopairs_enabled = true,          -- enable autopairs at start
-      diagnostics_enabled = true,        -- enable diagnostics at start
+      mapleader = " ", -- sets vim.g.mapleader
+      autoformat_enabled = true, -- enable or disable auto formatting at start (lsp.formatting.format_on_save must be enabled)
+      cmp_enabled = true, -- enable completion at start
+      autopairs_enabled = true, -- enable autopairs at start
+      diagnostics_enabled = true, -- enable diagnostics at start
       status_diagnostics_enabled = true, -- enable diagnostics in statusline
-      icons_enabled = true,              -- disable icons in the UI (disable if no nerd font is available, requires :PackerSync after changing)
-      ui_notifications_enabled = true,   -- disable notifications when toggling UI elements
+      icons_enabled = true, -- disable icons in the UI (disable if no nerd font is available, requires :PackerSync after changing)
+      ui_notifications_enabled = true, -- disable notifications when toggling UI elements
     },
   },
   -- If you need more control, you can use the function()...end notation
@@ -100,7 +100,7 @@ local config = {
     formatting = {
       -- control auto formatting on save
       format_on_save = {
-        enabled = true,     -- enable or disable format on save globally
+        enabled = true, -- enable or disable format on save globally
         allow_filetypes = { -- enable format on save for specified filetypes only
           -- "go",
         },
@@ -120,13 +120,13 @@ local config = {
     mappings = {
       n = {
         -- ["<leader>lf"] = false -- disable formatting keymap
-            ["<leader>la"] = {
+        ["<leader>la"] = {
           function()
             local curr_row = vim.api.nvim_win_get_cursor(0)[1]
             vim.lsp.buf.code_action {
-                  ["range"] = {
-                    ["start"] = { curr_row, 0 },
-                    ["end"] = { curr_row, 100 },
+              ["range"] = {
+                ["start"] = { curr_row, 0 },
+                ["end"] = { curr_row, 100 },
               },
             }
           end,
@@ -157,18 +157,20 @@ local config = {
       --     },
       --   },
       -- },
-      lua_ls = function(config)
-        return {
-          Lua = {
-            workspace = {
-              library = {
-                require("neodev.config").types(),
-              },
-              checkThirdParty = true,
-            },
-          },
-        }
-      end,
+      -- lua_ls = function(config)
+      --   return {
+      --     settings = {
+      --       Lua = {
+      --         workspace = {
+      --           library = {
+      --             require("neodev.config").types(),
+      --           },
+      --           checkThirdParty = true,
+      --         },
+      --       },
+      --     },
+      --   }
+      -- end,
       jdtls = function(_)
         return {
           cmd = {
@@ -209,8 +211,8 @@ local config = {
           },
           root_dir = function()
             return vim.fs.dirname(
-                  vim.fs.find({ ".gradlew", ".gitignore", "mvnw", "build.grade.kts" }, { upward = true })[1]
-                ) .. "\\"
+              vim.fs.find({ ".gradlew", ".gitignore", "mvnw", "build.grade.kts" }, { upward = true })[1]
+            ) .. "\\"
           end,
         }
       end,
@@ -225,51 +227,51 @@ local config = {
     n = {
       -- second key is the lefthand side of the map
       -- mappings seen under group name "Buffer"
-          ["<leader>bb"] = { "<cmd>tabnew<cr>", desc = "New tab" },
-          ["<leader>bc"] = { "<cmd>BufferLinePickClose<cr>", desc = "Pick to close" },
-          ["<leader>bj"] = { "<cmd>BufferLinePick<cr>", desc = "Pick to jump" },
-          ["<leader>bt"] = { "<cmd>BufferLineSortByTabs<cr>", desc = "Sort by tabs" },
-          ["<leader>uu"] = { "<cmd>UndotreeToggle<cr><cmd>UndotreeFocus<cr>", desc = "Open Undo Tree" },
-          ["<leader>h"] = { name = "Harpoon", desc = "🐳Harpoon" },
-          ["<leader>hh"] = { "<cmd>GrapplePopup tags<cr>", desc = "Harpoon View" },
-          ["<leader>ha"] = { '<cmd>lua require("grapple").toggle()<cr>', desc = "Harpoon Add File" },
+      ["<leader>bb"] = { "<cmd>tabnew<cr>", desc = "New tab" },
+      ["<leader>bc"] = { "<cmd>BufferLinePickClose<cr>", desc = "Pick to close" },
+      ["<leader>bj"] = { "<cmd>BufferLinePick<cr>", desc = "Pick to jump" },
+      ["<leader>bt"] = { "<cmd>BufferLineSortByTabs<cr>", desc = "Sort by tabs" },
+      ["<leader>uu"] = { "<cmd>UndotreeToggle<cr><cmd>UndotreeFocus<cr>", desc = "Open Undo Tree" },
+      ["<leader>h"] = { name = "Harpoon", desc = "🐳Harpoon" },
+      ["<leader>hh"] = { "<cmd>GrapplePopup tags<cr>", desc = "Harpoon View" },
+      ["<leader>ha"] = { '<cmd>lua require("grapple").toggle()<cr>', desc = "Harpoon Add File" },
       -- shortcut for starting the default lst for a file
-          ["<leader>lS"] = { "<cmd>LspStart<cr>", desc = "Start LSP" },
-          ["H"] = { "<cmd>bprevious<cr>", desc = "prev buff" },
-          ["L"] = { "<cmd>bnext<cr>", desc = "next buff" },
+      ["<leader>lS"] = { "<cmd>LspStart<cr>", desc = "Start LSP" },
+      ["H"] = { "<cmd>bprevious<cr>", desc = "prev buff" },
+      ["L"] = { "<cmd>bnext<cr>", desc = "next buff" },
       -- quick sav
-          ["<C-s>"] = { ":w!<cr>", desc = "Save File" }, -- change description but the same command
-          ["<C-z>"] = { ":u<cr>", desc = "Undo" },
-          ["<C-a>"] = { "ggVG", desc = "Select All" },
-          ["<C-c>"] = { '"+y', desc = "Copy" },
-          ["<C-v>"] = { '"+gP', desc = "Paste" },
-          ["y<leader>"] = { "0y$", desc = "Yank Entire Line" },
-          ["<C-q>"] = {
+      ["<C-s>"] = { ":w!<cr>", desc = "Save File" }, -- change description but the same command
+      ["<C-z>"] = { ":u<cr>", desc = "Undo" },
+      ["<C-a>"] = { "ggVG", desc = "Select All" },
+      ["<C-c>"] = { '"+y', desc = "Copy" },
+      ["<C-v>"] = { '"+gP', desc = "Paste" },
+      ["y<leader>"] = { "0y$", desc = "Yank Entire Line" },
+      ["<C-q>"] = {
         '<cmd>lua require("bufdelete").bufdelete(0, true)<cr>:q!<cr>',
         desc = "Force close buffer, then quit",
       },
-          ["<leader>q"] = {
+      ["<leader>q"] = {
         '<cmd>lua require("bufdelete").bufdelete(0, true)<cr>:q!<cr>',
         desc = "Quit",
       },
-          ["<C-f>"] = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search current buffer" },
-          ["<M-j>"] = { "15j", desc = "Jump Dowm" },
-          ["<M-k>"] = { "15k", desc = "Jump Up" },
+      ["<C-f>"] = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search current buffer" },
+      ["<M-j>"] = { "15j", desc = "Jump Dowm" },
+      ["<M-k>"] = { "15k", desc = "Jump Up" },
       -- tweak the find files shortcuts
       -- please note that by default <leader>ff finds only git tracked files and not "hidden" ones
       -- now <leader>ff finds all files and <leader>fF only looks at git tracked files
-          ["<leader>fF"] = {
+      ["<leader>fF"] = {
         function() require("telescope.builtin").find_files() end,
         desc = "Search files",
       },
-          ["<leader>ff"] = {
+      ["<leader>ff"] = {
         function() require("telescope.builtin").find_files { hidden = true, no_ignore = true } end,
         desc = "Search all files",
       },
-          ["<leader>fH"] = { "<cmd>Telescope highlights<cr>", desc = "Search Highlight Group" },
+      ["<leader>fH"] = { "<cmd>Telescope highlights<cr>", desc = "Search Highlight Group" },
       -- Now <leader>fw fuzzy finds words in all files and <leader>fW looks only at git tracked files :)
-          ["<leader>fW"] = { function() require("telescope.builtin").live_grep() end, desc = "Search words" },
-          ["<leader>fw"] = {
+      ["<leader>fW"] = { function() require("telescope.builtin").live_grep() end, desc = "Search words" },
+      ["<leader>fw"] = {
         function()
           require("telescope.builtin").live_grep {
             additional_args = function(args) return vim.list_extend(args, { "--hidden", "--no-ignore" }) end,
@@ -277,36 +279,36 @@ local config = {
         end,
         desc = "Search words in all files",
       },
-          ["]n"] = { "<cmd>call search('^.\\+')<cr>", desc = "Next non-empty line" },
-          ["[n"] = { "<cmd>call search('^.\\+', 'b')<cr>", desc = "Prev non-empty line" },
-          ["]N"] = { "}", desc = "Next empty line" },
-          ["[N"] = { "{", desc = "Prev empty line" },
-          ["\\"] = false,
-          ["-"] = { "<C-w>-", desc = "Decrease height" },
-          ["="] = { "<C-w>+", desc = "Increase height" },
-          ["ge"] = { "$", desc = "Goto line end" },
+      ["]n"] = { "<cmd>call search('^.\\+')<cr>", desc = "Next non-empty line" },
+      ["[n"] = { "<cmd>call search('^.\\+', 'b')<cr>", desc = "Prev non-empty line" },
+      ["]N"] = { "}", desc = "Next empty line" },
+      ["[N"] = { "{", desc = "Prev empty line" },
+      ["\\"] = false,
+      ["-"] = { "<C-w>-", desc = "Decrease height" },
+      ["="] = { "<C-w>+", desc = "Increase height" },
+      ["ge"] = { "$", desc = "Goto line end" },
     },
     t = {
       -- setting a mapping to false will disable it
       -- ["<esc>"] = false,
     },
     i = {
-          ["jj"] = false,
-          ["<C-s>"] = { "<esc>:w!<cr>", desc = "Save File" },
+      ["<C-s>"] = { "<esc>:w!<cr>", desc = "Save File" },
+      ["C-i"] = false,
     },
   },
   -- Set colorscheme to use
-  colorscheme = "kanagawa",
+  colorscheme = "catppuccin-macchiato",
   -- Configure plugins
   plugins = {
     {
       "chrisgrieser/nvim-various-textobjs",
-      event = "VeryLazy",
+      event = "BufEnter",
       config = function() require("various-textobjs").setup { useDefaultKeymaps = true } end,
     },
     {
       "hrsh7th/nvim-cmp",
-      event = "VeryLazy",
+      event = "InsertEnter",
       dependencies = {
         { "stevearc/dressing.nvim" },
         { "hrsh7th/cmp-omni" },
@@ -323,18 +325,17 @@ local config = {
     },
     {
       "j-hui/fidget.nvim", -- Provides info on the status of the LSP
-      event = "VeryLazy",
       config = function() require("fidget").setup {} end,
     },
     { "folke/neodev.nvim", config = function() require("neodev").setup() end },
-    { "mbbill/undotree",   cmd = "UndotreeToggle" },
+    { "mbbill/undotree", cmd = "UndotreeToggle" },
     {
       "cbochs/grapple.nvim",
       cmd = "GrapplePopup",
       init = function() require "plenary" end,
       config = function()
         require("grapple").setup {
-          scope = require("grapple").resolvers.git,
+          scope = require("grapple").resolvers.directory,
           popup_options = {
             relative = "editor",
             width = 60,
@@ -347,7 +348,7 @@ local config = {
     },
     {
       "kylechui/nvim-surround",
-      event = "VeryLazy",
+      event = "BufEnter",
       config = function()
         require("nvim-surround").setup {
           keymaps = {
@@ -355,36 +356,27 @@ local config = {
             visual = "s",
           },
           aliases = {
-                ["s"] = "]", -- Square brackets
-                ["p"] = ")", -- Paren
-                ["b"] = "}", -- Brackets
-                ["q"] = '"', -- Quotes
-                ["m"] = "$", -- Math (latex)
+            ["s"] = "]", -- Square brackets
+            ["p"] = ")", -- Paren
+            ["b"] = "}", -- Brackets
+            ["q"] = '"', -- Quotes
+            ["m"] = "$", -- Math (latex)
           },
         }
       end,
     },
-    { "Maan2003/lsp_lines.nvim",         config = function() require("lsp_lines").setup() end },
-    {
-      "nvim-lualine/lualine.nvim",
-      lazy = false,
-      dependencies = { "nvim-web-devicons" },
-      config = function()
-        require "user.lualine_conf"
-        LUALINE_INIT()
-      end,
-      -- config = function() require('lualine').setup { theme = 'auto' } end,
-    },
+    { "Maan2003/lsp_lines.nvim", config = function() require("lsp_lines").setup() end },
     --Latex
     {
       "lervag/vimtex",
       lazy = false,
       config = function()
+        vim.g.vimtex_compiler_latexmk = { build_dir = "build" }
         return {
-              ["vimtex_view_general_viewer"] = "SumatraPDF",
-              ["vimtex_view_method"] = "SumatraPDF",
-              ["vimtex_view_general_options"] = "-reuse-instance -forward-search @tex @line @pdf",
-              ["vimtex_view_general_options_latexmk"] = "-reuse-instance",
+          ["vimtex_view_general_viewer"] = "SumatraPDF",
+          ["vimtex_view_method"] = "SumatraPDF",
+          ["vimtex_view_general_options"] = "-reuse-instance -forward-search @tex @line @pdf",
+          ["vimtex_view_general_options_latexmk"] = "-reuse-instance",
         }
       end,
     },
@@ -392,32 +384,32 @@ local config = {
       "windwp/nvim-autopairs",
       event = "InsertEnter",
       config = function(plugin, opts)
-        require "plugins.configs.nvim-autopairs" (plugin, opts) -- include the default astronvim config that calls the setup call
+        require "plugins.configs.nvim-autopairs"(plugin, opts) -- include the default astronvim config that calls the setup call
         -- add more custom autopairs configuration such as custom rules
         local npairs = require "nvim-autopairs"
         local Rule = require "nvim-autopairs.rule"
         local cond = require "nvim-autopairs.conds"
         npairs.add_rules {
           Rule("$", "$", { "tex", "latex" })
-          -- don't add a pair if the next character is %
-              :with_pair(cond.not_after_regex "%%")
-          -- don't add a pair if  the previous character is xxx
-              :with_pair(
-                cond.not_before_regex("xxx", 3)
-              )
-          -- don't move right when repeat character
-              :with_move(cond.none())
-          -- don't delete if the next character is xx
-              :with_del(cond.not_after_regex "xx")
-          -- disable adding a newline when you press <cr>
-              :with_cr(cond.none()),
+            -- don't add a pair if the next character is %
+            :with_pair(cond.not_after_regex "%%")
+            -- don't add a pair if  the previous character is xxx
+            :with_pair(
+              cond.not_before_regex("xxx", 3)
+            )
+            -- don't move right when repeat character
+            :with_move(cond.none())
+            -- don't delete if the next character is xx
+            :with_del(cond.not_after_regex "xx")
+            -- disable adding a newline when you press <cr>
+            :with_cr(cond.none()),
         }
       end,
     },
     {
       "L3MON4D3/LuaSnip",
       config = function(plugin, opts)
-        require "plugins.configs.luasnip" (plugin, opts) -- include the default astronvim config that calls the setup call
+        require "plugins.configs.luasnip"(plugin, opts) -- include the default astronvim config that calls the setup call
         -- add more custom luasnip configuration such as filetype extend or custom snippets
         local luasnip_loader = require "luasnip.loaders.from_lua"
         luasnip_loader.lazy_load {
@@ -463,7 +455,7 @@ local config = {
     { "nyoom-engineering/oxocarbon.nvim" },
     {
       "catppuccin/nvim",
-      config = function() require("catppuccin").setup { transparent_background = false } end,
+      config = function() require("catppuccin").setup { transparent_background = false, no_italic = true } end,
     },
     { "EdenEast/nightfox.nvim" },
     {
@@ -495,6 +487,7 @@ local config = {
         return config -- return final config table
       end,
     },
+    { "github/copilot.vim", event = "InsertEnter" },
     {
       "nvim-treesitter/nvim-treesitter",
       opts = {
@@ -525,6 +518,74 @@ local config = {
         ensure_installed = { "stylua" },
       },
     },
+    -- RUST
+    {
+      "simrat39/rust-tools.nvim",
+      config = function()
+        -- local lsp_installer_servers = require("nvim-lsp-installer.servers")
+        -- local _, requested_server = lsp_installer_servers.get_server("rust_analyzer")
+        require("rust-tools").setup {
+          tools = {
+            autoSetHints = true,
+            -- options same as lsp hover / vim.lsp.util.open_floating_preview()
+            hover_actions = {
+              -- the border that is used for the hover window
+              -- see vim.api.nvim_open_win()
+              border = {
+                { "╭", "FloatBorder" },
+                { "─", "FloatBorder" },
+                { "╮", "FloatBorder" },
+                { "│", "FloatBorder" },
+                { "╯", "FloatBorder" },
+                { "─", "FloatBorder" },
+                { "╰", "FloatBorder" },
+                { "│", "FloatBorder" },
+              },
+              -- whether the hover action window gets automatically focused
+              -- default: false
+              auto_focus = true,
+            },
+            runnables = {
+              use_telescope = true,
+            },
+          },
+          server = {
+            on_init = require "astronvim.utils.lsp",
+            on_attach = function(client, bufnr)
+              require("astronvim.utils.lsp").on_attach(client, bufnr)
+              local rt = require "rust-tools"
+              -- Hover actions
+              vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { desc = "rust-tools", buffer = bufnr })
+              -- Code action groups
+              vim.keymap.set("n", "<leader>lA", rt.code_action_group.code_action_group, { buffer = bufnr })
+            end,
+          },
+        }
+      end,
+      ft = { "rust", "rs" },
+    },
+    {
+      "mfussenegger/nvim-dap",
+      enabled = 1,
+      lazy = true,
+      dependencies = {
+        {
+          "jay-babu/mason-nvim-dap.nvim",
+          dependencies = { "nvim-dap" },
+          cmd = { "DapInstall", "DapUninstall" },
+          opts = { automatic_setup = true },
+          config = require "plugins.configs.mason-nvim-dap",
+        },
+        {
+          "rcarriga/nvim-dap-ui",
+          opts = { floating = { border = "rounded" } },
+          config = require "plugins.configs.nvim-dap-ui",
+        },
+      },
+      -- init = function() table.insert(astronvim.file_plugins, "nvim-dap") end,
+      -- config = function() require("plugins.configs.nvim-dap").setup {} end,
+      ft = { "python", "py" },
+    },
   },
   -- CMP Source Priorities
   -- modify here the priorities of default cmp sources
@@ -537,11 +598,11 @@ local config = {
     return astronvim.default_tbl({
       sources = cmp.config.sources {
         { name = "nvim_lsp", priority = 1000 },
-        { name = "omni",     priority = 750 },
+        { name = "omni", priority = 750 },
         { name = "nvim_lua", priority = 750 }, -- only enables itself inside of lua, as it should :)
-        { name = "luasnip",  priority = 750 },
-        { name = "buffer",   priority = 500, keyword_length = 5 },
-        { name = "path",     priority = 250 },
+        { name = "luasnip", priority = 750 },
+        { name = "buffer", priority = 500, keyword_length = 5 },
+        { name = "path", priority = 250 },
       },
     }, config)
   end,
@@ -552,11 +613,20 @@ local config = {
     -- Here we call ftplugin (filetype plugins) manually for git repo reasons. :)
     -- Useful functions to know about
     --  vim.inspect() -- pretty prints a table
+    --  vim.tbl_extend("force", {}, {}) -- merges two tables
+    --  vim.tbl_deep_extend("force", {}, {}) -- merges two tables recursively
+    -- vim.tbl_isempty({}) -- checks if a table is empty
+    vim.g.copilot_no_tab_map = true
+    vim.g.copilot_no_default_keymap = true
+    vim.api.nvim_set_keymap("i", "<C-\\>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
     vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
       pattern = { "*.tex" },
       callback = function() require "user.ftplugin.tex" end,
     })
+    vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+      pattern = { "*.py" },
+      callback = function() require "user.ftplugin.python" end,
+    })
   end,
 }
-
 return config
