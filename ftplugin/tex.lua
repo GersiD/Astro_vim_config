@@ -33,3 +33,11 @@ vim.cmd [[
 
 -- Hide that annoying quickfix windowvimtexvimtex"
 vim["g"]["vimtex_quickfix_open_on_warning"] = false
+
+-- Use omnifunc for completion
+local cmp = require "cmp"
+local sources = cmp.get_config().sources
+local addOmni = { name = "omni", priority = 750 }
+vim.list_extend(sources, { addOmni })
+-- print(vim.inspect(sources))
+cmp.setup.buffer { sources = sources }
