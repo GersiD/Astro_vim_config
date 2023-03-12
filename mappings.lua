@@ -41,6 +41,20 @@ return {
     -- tweak the find files shortcuts
     -- please note that by default <leader>ff finds only git tracked files and not "hidden" ones
     -- now <leader>ff finds all files and <leader>fF only looks at git tracked files
+    ["<leader>r"] = {
+      function()
+        local opts = {} -- picker options
+        local builtin = require "telescope.builtin"
+        local themes = require "telescope.themes"
+        builtin.commands(themes.get_ivy(opts))
+        -- require("telescope.builtin").commands { layout_config = {} }
+      end,
+      desc = "Run Command",
+    },
+    ["<leader>fv"] = { function() require("telescope.builtin").vim_options() end },
+    ["<leader>b"] = { name = "Buffers", desc = "📔Buffers" },
+    ["<leader>p"] = { name = "Packages", desc = "📦Packages" },
+    ["<leader>f"] = { name = "Find", desc = "🔎Find" },
     ["<leader>fF"] = {
       function() require("telescope.builtin").find_files() end,
       desc = "Search files",

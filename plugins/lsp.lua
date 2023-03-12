@@ -20,6 +20,7 @@ return {
   { "github/copilot.vim", event = "User Astrofile", ft = { "py", "lua", "go", "rs", "java", "jl", "tex" } },
   {
     "nvim-treesitter/nvim-treesitter",
+    cond = function() return vim.bo.filetype ~= "tex" end, -- disable treesitter for tex files
     opts = {
       -- ensure_installed = { "lua" },
       ensure_installed = {
@@ -59,18 +60,6 @@ return {
           autoSetHints = true,
           -- options same as lsp hover / vim.lsp.util.open_floating_preview()
           hover_actions = {
-            -- the border that is used for the hover window
-            -- see vim.api.nvim_open_win()
-            border = {
-              { "╭", "FloatBorder" },
-              { "─", "FloatBorder" },
-              { "╮", "FloatBorder" },
-              { "│", "FloatBorder" },
-              { "╯", "FloatBorder" },
-              { "─", "FloatBorder" },
-              { "╰", "FloatBorder" },
-              { "│", "FloatBorder" },
-            },
             -- whether the hover action window gets automatically focused
             -- default: false
             auto_focus = true,

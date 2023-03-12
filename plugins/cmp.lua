@@ -1,9 +1,9 @@
 return {
+  { "hrsh7th/cmp-omni", ft = { "tex" } },
   {
     "hrsh7th/nvim-cmp",
     event = "User AstroFile",
     dependencies = {
-      { "hrsh7th/cmp-omni" },
       { "hrsh7th/cmp-nvim-lsp" },
       { "hrsh7th/cmp-path" },
       { "hrsh7th/cmp-buffer" },
@@ -54,7 +54,6 @@ return {
       -- true == 1000
       sources = {
         { name = "nvim_lsp", priority = 1000 },
-        -- { name = "omni", priority = 750 },
         { name = "luasnip", priority = 500 },
         { name = "buffer", priority = 500, keyword_length = 3 },
         { name = "path", priority = 250 },

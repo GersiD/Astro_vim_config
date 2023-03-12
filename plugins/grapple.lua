@@ -1,7 +1,7 @@
 return {
   "cbochs/grapple.nvim",
   cmd = "GrapplePopup",
-  init = function() require "plenary" end,
+  dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
     require("grapple").setup {
       scope = require("grapple").resolvers.directory,

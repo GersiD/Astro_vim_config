@@ -12,7 +12,7 @@ return {
           format = "lsp_progress",
           --- @type NoiceFormat|string
           format_done = "lsp_progress_done",
-          throttle = 100, -- frequency to update lsp progress message (ms)
+          throttle = 150, -- frequency to update lsp progress message (ms)
           view = "mini",
         },
         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
@@ -33,7 +33,7 @@ return {
             enabled = true,
             trigger = true, -- Automatically show signature help when typing a trigger character from the LSP
             luasnip = true, -- Will open signature help when jumping to Luasnip insert nodes
-            throttle = 50, -- Debounce lsp signature help request by 50ms
+            throttle = 0, -- Debounce lsp signature help request by 50ms
           },
           view = nil, -- when nil, use defaults from documentation
           ---@type NoiceViewOptions
@@ -183,7 +183,7 @@ return {
         -- add any filetypes here, that shouldn't trigger smart move.
         excluded_filetypes = { "cmp_menu", "cmp_docs", "notify" },
       },
-      throttle = 100, -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
+      throttle = 150, -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
       ---@type NoiceConfigViews
       views = {}, ---@see section on views
       ---@type NoiceRouteConfig[]

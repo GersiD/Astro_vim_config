@@ -8,8 +8,8 @@
 --  vim.tbl_deep_extend("force", {}, {}) -- merges two tables recursively
 -- vim.tbl_isempty({}) -- checks if a table is empty
 vim.g.copilot_no_tab_map = true
-vim.g.copilot_no_default_keymap = true
-vim.api.nvim_set_keymap("i", "<Right>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
+-- vim.g.copilot_no_default_keymap = true
+vim.api.nvim_set_keymap("i", "<Right>", 'copilot#Accept("")', { silent = true, expr = true, script = true })
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   pattern = { "*.tex" },
   callback = function() require "user.ftplugin.tex" end,
