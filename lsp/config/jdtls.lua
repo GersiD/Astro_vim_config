@@ -1,4 +1,14 @@
 return {
+  settings = {
+    java = {
+      project = {
+        referencedLibraries = {
+          "C:/Users/gersi/scoop/apps/gradle/current/lib/*.jar",
+          "C:/Users/gersi/scoop/apps/gradle/current/lib/plugins/*.jar",
+        },
+      },
+    },
+  },
   cmd = {
     "java", -- or '/path/to/java17_or_newer/bin/java'
     -- depends on if `java` is in your $PATH env variable and if it points to the right version.
@@ -35,12 +45,11 @@ return {
     "-data",
     "C:\\Users\\gersi\\.cache\\jdtls\\workspace",
   },
-  root_dir = function()
-    return vim.fs.dirname(
-      vim.fs.find(
-        { ".gradlew", ".gitignore", "mvnw", "build.grade.kts" },
-        { upward = true, path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)) }
-      )[1]
-    ) .. "\\"
-  end,
+  root_dir = require("jdtls.setup").find_root { "build.gradle.kts", ".gradlew", ".gitignore" },
+  -- root_dir = vim.fs.dirname(
+  --   vim.fs.find(
+  --     { ".gradlew", ".gitignore", "mvnw", "build.grade.kts" },
+  --     { upward = true, path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)) }
+  --   )[1]
+  -- ) .. "\\",
 }

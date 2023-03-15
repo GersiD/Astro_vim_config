@@ -15,7 +15,7 @@ return {
   DashboardFooter = { fg = "#FE001A" },
   DashboardShortcut = { fg = "#FBF1C7" },
   DashboardCenter = { fg = "#FBF1C7" },
-  -- FloatBorder = { fg = "#458588" },
+  FloatBorder = { fg = "#696969" },
   -- Which Key
   -- WhichKey = { fg = "#98971a" }, -- Controls the color of the key
   -- WhichKeyDesc = { fg = "#a89984" }, -- Controls the desc of a key
@@ -24,12 +24,12 @@ return {
   -- WhichKeyValue = {}, -- No one knows
   -- WhichKeyBorder = {}, -- No one knows
   -- WhichKeySeparator = {}, -- Controls the white space between shit
-  PmenuSel = { bg = "#282C34", fg = "NONE" },
-  Pmenu = { fg = "#C5CDD9", bg = "#22252A" },
+  -- PmenuSel = { bg = "#282C34", fg = "NONE" },
+  -- Pmenu = { fg = "#C5CDD9", bg = "#22252A" },
   -- CmpItemAbbrDeprecated = { fg = "#7E8294", bg = "NONE" },
-  -- CmpItemAbbrMatch = { fg = "#82AAFF", bg = "NONE" },
-  -- CmpItemAbbrMatchFuzzy = { fg = "#82AAFF", bg = "NONE" },
-  -- CmpItemMenu = { fg = "#C792EA", bg = "NONE" },
+  CmpItemAbbrMatch = { fg = "#82AAFF", bg = "NONE" },
+  CmpItemAbbrMatchFuzzy = { fg = "#82AAFF", bg = "NONE" },
+  CmpItemMenu = { fg = "#696969", bg = "NONE" },
   -- CmpItemKindField = { fg = "#EED8DA", bg = "#B5585F" },
   -- CmpItemKindProperty = { fg = "#EED8DA", bg = "#B5585F" },
   -- CmpItemKindEvent = { fg = "#EED8DA", bg = "#B5585F" },

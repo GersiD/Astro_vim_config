@@ -14,5 +14,14 @@ return {
       end,
       desc = "Code Action On Line",
     },
+    -- swap ll and lL for convenience
+    ["<leader>ll"] = {
+      function() vim.lsp.codelens.run() end,
+      desc = "Code Lens Run",
+    },
+    ["<leader>lL"] = {
+      function() vim.lsp.codelens.refresh() end,
+      desc = "Code Lens Refresh",
+    },
   },
 }

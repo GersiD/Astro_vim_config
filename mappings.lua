@@ -43,7 +43,7 @@ return {
     -- now <leader>ff finds all files and <leader>fF only looks at git tracked files
     ["<leader>r"] = {
       function()
-        local opts = {} -- picker options
+        local opts = { show_buf_command = true } -- picker options
         local builtin = require "telescope.builtin"
         local themes = require "telescope.themes"
         builtin.commands(themes.get_ivy(opts))
@@ -51,7 +51,7 @@ return {
       end,
       desc = "Run Command",
     },
-    ["<leader>fv"] = { function() require("telescope.builtin").vim_options() end },
+    ["<leader>fv"] = { function() require("telescope.builtin").vim_options() end, desc = "search Vim Options" },
     ["<leader>b"] = { name = "Buffers", desc = "📔Buffers" },
     ["<leader>p"] = { name = "Packages", desc = "📦Packages" },
     ["<leader>f"] = { name = "Find", desc = "🔎Find" },
@@ -91,5 +91,6 @@ return {
   i = {
     ["<C-s>"] = { "<esc>:w!<cr>", desc = "Save File" },
     ["C-i"] = false,
+    ["<C-CR>"] = { "<cmd>Copilot panel<cr>", desc = "Copilot panel" },
   },
 }

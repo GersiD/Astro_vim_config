@@ -6,4 +6,7 @@ return {
   -- right_accent = { "", " " }, -- accent separator for the right side of the statusline
   -- space_right = { "", " " },
   -- space_left = { " ", "" },
+  left = { "", " " }, -- separator for the left side of the statusline
+  right = { " ", "" }, -- separator for the right side of the statusline
+  tab = { "", "" },
 }

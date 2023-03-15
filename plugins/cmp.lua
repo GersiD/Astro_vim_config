@@ -4,6 +4,7 @@ return {
     "hrsh7th/nvim-cmp",
     event = "User AstroFile",
     dependencies = {
+      { "hrsh7th/cmp-nvim-lsp-signature-help" },
       { "hrsh7th/cmp-nvim-lsp" },
       { "hrsh7th/cmp-path" },
       { "hrsh7th/cmp-buffer" },
@@ -16,9 +17,9 @@ return {
         throttle = 0,
         fetching_timeout = 0,
       },
-      experimental = {
-        ghost_text = false,
-      },
+      -- experimental = {
+      --   ghost_text = false,
+      -- },
       completion = {
         keyword_length = 1,
       },
@@ -54,6 +55,7 @@ return {
       -- true == 1000
       sources = {
         { name = "nvim_lsp", priority = 1000 },
+        { name = "nvim_lsp_signature_help", priority = 600 },
         { name = "luasnip", priority = 500 },
         { name = "buffer", priority = 500, keyword_length = 3 },
         { name = "path", priority = 250 },

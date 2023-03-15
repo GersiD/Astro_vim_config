@@ -17,7 +17,25 @@ return {
     end,
   },
   { "Maan2003/lsp_lines.nvim", event = "LspAttach", config = function() require("lsp_lines").setup() end },
-  { "github/copilot.vim", event = "User Astrofile", ft = { "py", "lua", "go", "rs", "java", "jl", "tex" } },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "User AstroFile",
+    opts = {
+      panel = {
+        auto_refresh = true,
+      },
+      suggestion = {
+        auto_trigger = true,
+        debounce = 20,
+        keymap = {
+          accept = "<Right>",
+          -- accept_word = "<>",
+          -- accept_line = false,
+        },
+      },
+    },
+  },
   {
     "nvim-treesitter/nvim-treesitter",
     cond = function() return vim.bo.filetype ~= "tex" end, -- disable treesitter for tex files
@@ -32,6 +50,7 @@ return {
         "go",
         "vim",
         "help",
+        "bash",
       },
     },
   },
@@ -57,18 +76,28 @@ return {
       return {
         server = require("astronvim.utils.lsp").config "rust_analyzer",
         tools = {
-          autoSetHints = true,
           -- options same as lsp hover / vim.lsp.util.open_floating_preview()
-          hover_actions = {
-            -- whether the hover action window gets automatically focused
-            -- default: false
-            auto_focus = true,
-          },
-          runnables = {
-            use_telescope = true,
-          },
+          -- hover_actions = {
+          --   -- whether the hover action window gets automatically focused
+          --   -- default: false
+          --   -- auto_focus = true,
+          -- },
+          -- runnables = {
+          --   use_telescope = true,
+          -- },
         },
       }
+    end,
+  },
+  -- Java
+  {
+    "mfussenegger/nvim-jdtls", -- load jdtls on module
+    ft = { "java" },
+    init = function()
+      vim.api.nvim_create_autocmd("Filetype", {
+        pattern = "java", -- autocmd to start jdtls
+        callback = function() require("jdtls").start_or_attach(require("astronvim.utils.lsp").config "jdtls") end,
+      })
     end,
   },
 }
