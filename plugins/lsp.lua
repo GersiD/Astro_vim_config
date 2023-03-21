@@ -23,11 +23,13 @@ return {
     event = "User AstroFile",
     opts = {
       panel = {
-        auto_refresh = true,
+        -- auto_refresh = true,
+        -- enabled = false, -- disable panel for copilot-cmp
       },
       suggestion = {
+        -- enabled = false, -- disable suggestion for copilot-cmp
         auto_trigger = true,
-        debounce = 20,
+        debounce = 0,
         keymap = {
           accept = "<Right>",
           -- accept_word = "<>",
@@ -41,32 +43,35 @@ return {
     cond = function() return vim.bo.filetype ~= "tex" end, -- disable treesitter for tex files
     opts = {
       -- ensure_installed = { "lua" },
-      ensure_installed = {
-        "lua",
-        "python",
-        "julia",
-        "java",
-        "rust",
-        "go",
-        "vim",
-        "help",
-        "bash",
-      },
+      -- ensure_installed = {
+      --   "lua",
+      --   "regex",
+      --   "markdown",
+      --   "markdown_inline",
+      --   "python",
+      --   "julia",
+      --   "java",
+      --   "rust",
+      --   "go",
+      --   "vim",
+      --   "help",
+      --   "bash",
+      -- },
     },
   },
   {
     "williamboman/mason-lspconfig.nvim",
     -- overrides `require("mason-lspconfig").setup(...)`
-    opts = {
-      ensure_installed = { "lua_ls", "ltex", "texlab" },
-    },
+    -- opts = {
+    --   ensure_installed = { "lua_ls", "texlab" },
+    -- },
   },
   {
     "jay-babu/mason-null-ls.nvim",
     -- overrides `require("mason-null-ls").setup(...)`
-    opts = {
-      ensure_installed = { "stylua" },
-    },
+    -- opts = {
+    --   ensure_installed = { "stylua" },
+    -- },
   },
   -- RUST
   {
@@ -82,9 +87,9 @@ return {
           --   -- default: false
           --   -- auto_focus = true,
           -- },
-          -- runnables = {
-          --   use_telescope = true,
-          -- },
+          runnables = {
+            use_telescope = true,
+          },
         },
       }
     end,

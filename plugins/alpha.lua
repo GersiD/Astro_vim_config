@@ -17,16 +17,16 @@ return {
       "`888a,.  ,aadd88888888888bma.   )88,  ,]I I8, .d' )88a8B ,d8 aI",
       '  "888888PP"\'        `8""""""8   "888PP\'  `888P\'  `88P"88P"8m"',
     }
-    opts.section.footer.val = {
-      " ",
-      " ",
-      " ",
-      " AstroNvim loaded "
-        .. require("lazy").stats().loaded + 1
-        .. " plugins out of "
-        .. require("lazy").stats().count
-        .. "",
-    }
+    -- opts.section.footer.val = {
+    --   " ",
+    --   " ",
+    --   " ",
+    --   " AstroNvim loaded "
+    --     .. require("lazy").stats().loaded + 1
+    --     .. " plugins out of "
+    --     .. require("lazy").stats().count
+    --     .. "",
+    -- }
     return opts
   end,
 }

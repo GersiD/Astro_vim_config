@@ -10,5 +10,7 @@ return {
     },
     size = 10,
     shading_factor = 2,
+    -- start_in_insert = true,
+    shell = "pwsh",
   },
 }

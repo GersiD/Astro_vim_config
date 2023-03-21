@@ -117,9 +117,8 @@ return {
     if opts.statuscolumn then
       opts.statuscolumn = {
         status.component.foldcolumn(),
-        status.component.fill(),
         status.component.signcolumn(),
-        status.component.fill(),
+        -- status.component.fill(),
         status.component.numbercolumn(),
       }
     end

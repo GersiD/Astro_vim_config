@@ -23,7 +23,7 @@ return {
         },
         hover = {
           enabled = true,
-          view = nil, -- when nil, use defaults from documentation
+          -- view = nil, -- when nil, use defaults from documentation
           ---@type NoiceViewOptions
           opts = {}, -- merged with defaults from documentation
         },

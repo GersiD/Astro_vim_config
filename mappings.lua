@@ -31,8 +31,8 @@ return {
       '<cmd>lua require("bufdelete").bufdelete(0, true)<cr>:q!<cr>',
       desc = "Force close buffer, then quit",
     },
-    ["<leader>q"] = {
-      '<cmd>lua require("bufdelete").bufdelete(0, true)<cr>:q!<cr>',
+    ["q"] = {
+      ":q!<cr>",
       desc = "Quit",
     },
     ["<C-f>"] = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search current buffer" },
@@ -74,6 +74,18 @@ return {
       end,
       desc = "Search words in all files",
     },
+    ["<leader>ft"] = {
+      function()
+        local themes = require "user.plugins.themes"
+        for _, theme in ipairs(themes) do
+          local name = string.match(theme[1], "([^/]+)$")
+          require("lazy").load { plugins = name }
+        end
+        require("telescope.builtin").colorscheme { enable_preview = true }
+      end,
+      desc = "Find themes",
+    },
+
     -- ["<leader>fn"] = { "<cmd>Noice telescope<cr>", desc = "Search Noice" },
     ["]n"] = { "<cmd>call search('^.\\+')<cr>", desc = "Next non-empty line" },
     ["[n"] = { "<cmd>call search('^.\\+', 'b')<cr>", desc = "Prev non-empty line" },
@@ -87,6 +99,7 @@ return {
   t = {
     -- setting a mapping to false will disable it
     -- ["<esc>"] = false,
+    ["<ESC>"] = { "<C-\\><C-n>", desc = "Normal mode" }, --finish terminal mapping
   },
   i = {
     ["<C-s>"] = { "<esc>:w!<cr>", desc = "Save File" },

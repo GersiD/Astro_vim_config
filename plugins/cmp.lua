@@ -10,15 +10,16 @@ return {
       { "hrsh7th/cmp-buffer" },
       { "saadparwaiz1/cmp_luasnip" },
       { "L3MON4D3/LuaSnip" },
+      { "hrsh7th/cmp-emoji" },
     },
     opts = {
       performance = {
         debounce = 0,
         throttle = 0,
-        fetching_timeout = 0,
+        -- fetching_timeout = 0,
       },
       -- experimental = {
-      --   ghost_text = false,
+      --   ghost_text = true,
       -- },
       completion = {
         keyword_length = 1,
@@ -31,7 +32,7 @@ return {
       },
       window = {
         completion = {
-          winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+          -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
           col_offset = -3,
           side_padding = 0,
         },
@@ -54,11 +55,14 @@ return {
       -- false == disabled
       -- true == 1000
       sources = {
-        { name = "nvim_lsp", priority = 1000 },
-        { name = "nvim_lsp_signature_help", priority = 600 },
+        { name = "nvim_lsp", priority = 900 },
         { name = "luasnip", priority = 500 },
-        { name = "buffer", priority = 500, keyword_length = 3 },
-        { name = "path", priority = 250 },
+        { name = "buffer", priority = 300, keyword_length = 3 },
+        { name = "path" },
+        { name = "nvim_lsp_signature_help" },
+      },
+      sorting = {
+        priority_weight = 2,
       },
     },
   },

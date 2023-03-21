@@ -1,1 +1,1 @@
-return "tokyonight-night"
+return "everforest"

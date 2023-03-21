@@ -3,6 +3,7 @@ return {
   opts = {
     mode = "symbol_text",
     symbol_map = {
+      Copilot = "",
       Text = "",
       Method = "",
       Function = "",

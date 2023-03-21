@@ -14,9 +14,8 @@ return {
   },
   {
     "rebelot/kanagawa.nvim",
-    enabled = false,
     opts = {
-      compile = true, -- enable compiling the colorscheme
+      compile = false, -- enable compiling the colorscheme
       undercurl = true, -- enable undercurls
       commentStyle = { italic = false },
       functionStyle = { italic = false },
@@ -31,8 +30,6 @@ return {
         palette = {},
         theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
       },
-      overrides = function(colors) -- add/modify highlights
-      end,
       theme = "dragon", -- Load "wave" theme when 'background' option is not set
       background = { -- map the value of 'background' option to a theme
         dark = "wave", -- try "dragon" !
@@ -75,7 +72,6 @@ return {
       -- on_highlights = function(highlights, colors) end,
     },
   },
-  { "nyoom-engineering/oxocarbon.nvim" },
   {
     "catppuccin/nvim",
     config = function() require("catppuccin").setup { transparent_background = false, no_italic = true } end,
@@ -93,4 +89,5 @@ return {
       }
     end,
   },
+  { "sainnhe/everforest" },
 }

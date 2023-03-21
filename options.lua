@@ -7,6 +7,8 @@ return {
     spell = false, -- sets vim.opt.spell
     signcolumn = "auto", -- sets vim.opt.signcolumn to auto
     wrap = true, -- sets vim.opt.wrap
+    timeoutlen = 300, -- sets vim.opt.timeoutlen
+    updatetime = 1000, -- sets vim.opt.updatetime
     -- shell = "pwsh",
     -- shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
     -- shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
@@ -16,6 +18,7 @@ return {
   },
   g = {
     mapleader = " ", -- sets vim.g.mapleader
+    maplocalleader = "\\", -- sets vim.g.maplocalleader
     autoformat_enabled = true, -- enable or disable auto formatting at start (lsp.formatting.format_on_save must be enabled)
     cmp_enabled = true, -- enable completion at start
     autopairs_enabled = true, -- enable autopairs at start
@@ -34,6 +37,7 @@ return {
     python3_host_prog = "C:/Users/gersi/AppData/Local/Programs/Python/Python311/python.exe", -- set python3 host program
     ruby_host_prog = "C:/Ruby27-x64/bin/ruby.exe", -- set ruby host program which I currently dont have installed
     perl_host_prog = "C:/Perl64/bin/perl.exe", -- set perl host program which I currently dont have installed
+    nofsync = true, -- disable fsync
     clipboard = {
       name = "win32yank", -- set clipboard provider
       copy = {
@@ -46,7 +50,6 @@ return {
       },
     },
   },
-  --nofsync = true, -- disable fsync
 }
 -- If you need more control, you can use the function()...end notation
 -- options = function(local_vim)
