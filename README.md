@@ -11,7 +11,7 @@ git clone --depth 1 https://github.com/AstroNvim/AstroNvim $env:LOCALAPPDATA\nvi
 # Install these user settings
 ```
 git clone https://github.com/GersiD/Astro_vim_config.git $env:LOCALAPPDATA\nvim\lua\user
-``
+```
 
 # Run nvim and wait for plugins to install
 ```
