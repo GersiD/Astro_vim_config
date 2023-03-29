@@ -10,14 +10,14 @@ return {
       { "hrsh7th/cmp-buffer" },
       { "saadparwaiz1/cmp_luasnip" },
       { "L3MON4D3/LuaSnip" },
-      { "hrsh7th/cmp-emoji" },
+      -- { "hrsh7th/cmp-emoji" },
     },
     opts = {
-      performance = {
-        debounce = 0,
-        throttle = 0,
-        -- fetching_timeout = 0,
-      },
+      -- performance = {
+      --   debounce = 0,
+      --   throttle = 0,
+      --   -- fetching_timeout = 0,
+      -- },
       -- experimental = {
       --   ghost_text = true,
       -- },
