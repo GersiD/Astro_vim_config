@@ -13,6 +13,10 @@ return {
     ["<leader>bj"] = { "<cmd>BufferLinePick<cr>", desc = "Pick to jump" },
     ["<leader>bt"] = { "<cmd>BufferLineSortByTabs<cr>", desc = "Sort by tabs" },
     ["<leader>uu"] = { "<cmd>UndotreeToggle<cr><cmd>UndotreeFocus<cr>", desc = "Open Undo Tree" },
+    ["<leader>un"] = {
+      function() require("notify").dismiss { pending = true } end,
+      desc = "Clear Notifications",
+    },
     ["<leader>h"] = { name = "Harpoon", desc = "🐳Harpoon" },
     ["<leader>hh"] = { "<cmd>GrapplePopup tags<cr>", desc = "Harpoon View" },
     ["<leader>ha"] = { '<cmd>lua require("grapple").toggle()<cr>', desc = "Harpoon Add File" },
@@ -99,7 +103,8 @@ return {
   t = {
     -- setting a mapping to false will disable it
     -- ["<esc>"] = false,
-    ["<ESC>"] = { "<C-\\><C-n>", desc = "Normal mode" }, --finish terminal mapping
+    -- ["<ESC>"] = { "<C-\\><C-n>", desc = "Normal mode" }, --finish terminal mapping
+    ["<ESC><ESC>"] = { "<C-\\><C-n>", desc = "Normal mode" },
   },
   i = {
     ["<C-s>"] = { "<esc>:w!<cr>", desc = "Save File" },
