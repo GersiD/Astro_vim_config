@@ -59,6 +59,7 @@ return {
     ["<leader>b"] = { name = "Buffers", desc = "📔Buffers" },
     ["<leader>p"] = { name = "Packages", desc = "📦Packages" },
     ["<leader>f"] = { name = "Find", desc = "🔎Find" },
+    ["<leader>fm"] = false, -- Diable man help for windows :/
     ["<leader>fF"] = {
       function() require("telescope.builtin").find_files() end,
       desc = "Search files",
